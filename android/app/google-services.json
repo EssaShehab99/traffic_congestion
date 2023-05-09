@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "674426290422",
+    "project_id": "trafficcongestion-da8ad",
+    "storage_bucket": "trafficcongestion-da8ad.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:674426290422:android:ecea7c2345d53721096cd7",
+        "android_client_info": {
+          "package_name": "com.example.traffic_congestion"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "674426290422-9ibqjkqiq8scjpnstcf6gfarms9lb2k2.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB3b15c7cLuGFZdQ0DD8vPdIXj4WhYUQVg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "674426290422-9ibqjkqiq8scjpnstcf6gfarms9lb2k2.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
