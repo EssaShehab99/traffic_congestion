@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:traffic_congestion/views/auth/login_screen.dart';
+import 'package:traffic_congestion/views/auth/register_screen.dart';
 import 'package:traffic_congestion/views/shared/button_widget.dart';
 
 class OnboardingScreeb extends StatefulWidget {
@@ -25,7 +27,8 @@ class OonboardingScreebState extends State<OnboardingScreeb> {
                 height: 300,
               ),
               const SizedBox(height: 25),
-              const Text("We help you reach your destination with the least possible traffic and the least time to wait for available parking.",
+              const Text(
+                "We help you reach your destination with the least possible traffic and the least time to wait for available parking.",
                 style: TextStyle(
                   fontSize: 20,
                   fontWeight: FontWeight.normal,
@@ -37,13 +40,19 @@ class OonboardingScreebState extends State<OnboardingScreeb> {
                 width: double.infinity,
                 child: ButtonWidget(
                   onPressed: () {
-
+                    Navigator.push(context, MaterialPageRoute(builder: (context) => LoginScreen(),));
                   },
                   child: Row(
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      Text("Login",style: Theme.of(context).textTheme.button,),
-                      Icon(Icons.arrow_forward,color: Theme.of(context).colorScheme.onPrimary,),
+                      Text(
+                        "Login",
+                        style: Theme.of(context).textTheme.button,
+                      ),
+                      Icon(
+                        Icons.arrow_forward,
+                        color: Theme.of(context).colorScheme.onPrimary,
+                      ),
                     ],
                   ),
                 ),
@@ -52,12 +61,13 @@ class OonboardingScreebState extends State<OnboardingScreeb> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                   Text('Don\'t have an account?',
+                  Text(
+                    'Don\'t have an account?',
                     style: Theme.of(context).textTheme.bodyText2,
                   ),
                   TextButton(
                     onPressed: () {
-
+                      Navigator.push(context, MaterialPageRoute(builder: (context) => RegisterScreen(),));
                     },
                     style: ButtonStyle(
                       overlayColor: MaterialStateProperty.all<Color>(

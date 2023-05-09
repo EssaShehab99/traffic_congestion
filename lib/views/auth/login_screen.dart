@@ -2,6 +2,7 @@ import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:traffic_congestion/data/network/data_response.dart';
+import 'package:traffic_congestion/views/auth/register_screen.dart';
 import 'package:traffic_congestion/views/home/home_screen.dart';
 import 'package:traffic_congestion/views/shared/assets_variables.dart';
 import 'package:traffic_congestion/views/shared/button_widget.dart';
@@ -150,7 +151,9 @@ class _LoginScreenState extends State<LoginScreen> {
                         style: Theme.of(context).textTheme.bodyText2,
                       ),
                       TextButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          Navigator.push(context, MaterialPageRoute(builder: (context) => RegisterScreen(),));
+                        },
                         style: ButtonStyle(
                           overlayColor: MaterialStateProperty.all<Color>(
                             Colors.transparent,

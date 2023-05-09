@@ -195,7 +195,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         style: Theme.of(context).textTheme.bodyText2,
                       ),
                       TextButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          Navigator.push(context, MaterialPageRoute(builder: (context) => RegisterScreen(),));
+                        },
                         style: ButtonStyle(
                           overlayColor: MaterialStateProperty.all<Color>(
                             Colors.transparent,

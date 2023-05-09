@@ -8,14 +8,14 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import '/views/shared/dropdown_field_widget.dart';
 import '/views/shared/shared_components.dart';
 
-class MapScreen extends StatefulWidget {
-  const MapScreen({Key? key}) : super(key: key);
+class MapWidget extends StatefulWidget {
+  const MapWidget({Key? key}) : super(key: key);
 
   @override
-  State<MapScreen> createState() => _MapScreenState();
+  State<MapWidget> createState() => _MapWidgetState();
 }
 
-class _MapScreenState extends State<MapScreen> {
+class _MapWidgetState extends State<MapWidget> {
   List<Marker> markers = [];
   late Completer<GoogleMapController> _controller;
   late CameraPosition initialCameraPosition;
