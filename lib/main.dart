@@ -52,7 +52,7 @@ class MyApp extends StatelessWidget {
         locale: context.locale,
         debugShowCheckedModeBanner: false,
         theme: ThemeApp.light,
-        home: const Register(),
+        home: const LoginScreen(),
         // home: user == null ? const SignInScreen() : const HomeScreen(),
         // home:  const SignInScreen(),
         // home: const MainScreen(),

@@ -9,9 +9,8 @@ class AuthProvider extends ChangeNotifier {
   User? _user;
   User? get user => _user;
   String? verificationId;
-  Future<Result> register() async {
-    if(_user==null)return Error();
-    Result result = await _authRepository.register(_user!);
+  Future<Result> register(User user) async {
+    Result result = await _authRepository.register(user);
     if (result is Success) {
       _user = result.value as User?;
     }
@@ -21,7 +20,7 @@ class AuthProvider extends ChangeNotifier {
   Future<Result> login(String email, String password) async {
     Result result = await _authRepository.login(email, password);
     if (result is Success) {
-      _user = result.value as User?;
+      _user = result.value;
     }
     return result;
   }

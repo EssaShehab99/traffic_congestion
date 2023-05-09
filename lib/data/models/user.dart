@@ -1,55 +1,40 @@
-import '/data/utils/enum.dart';
-
 class User {
-  int? id;
-  String? name;
+  String? id;
   String email;
-  String? phone;
-  int? age;
+  String name;
+  String idNumber;
+  String phone;
   String password;
-  String? city;
-  UserRole? userRole;
 
-  User(
-      {this.id,
-      this.name,
-      required this.email,
-       this.phone,
-       this.age,
-         this.userRole,
-      required this.password,
-      this.city});
+  User({
+     this.id,
+    required this.email,
+    required this.name,
+    required this.idNumber,
+    required this.phone,
+    required this.password,
+  });
 
   factory User.fromJson(Map<String, dynamic> json) {
     return User(
       id: json["id"],
-      name: json["name"],
       email: json["email"],
+      name: json["name"],
+      idNumber: json["idNumber"],
       phone: json["phone"],
-      age: json["age"],
-      city: json["city"],
       password: json["password"],
-      userRole: () {
-      if (json["roles"] ==UserRole.admin.name) {
-        return UserRole.admin;
-      }
-      return UserRole.user;
-    }(),
     );
   }
 
   Map<String, dynamic> toJson() {
     return {
-      "id": id,
-      "name": name,
+      "uid": id,
       "email": email,
+      "name": name,
+      "idNumber": idNumber,
       "phone": phone,
-      "age": age,
       "password": password,
-      "city": city,
-      "roles": userRole?.name
     };
   }
 //
-
 }

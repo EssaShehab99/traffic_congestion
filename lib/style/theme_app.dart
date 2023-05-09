@@ -44,7 +44,7 @@ class ThemeApp {
         fillColor: const Color(0xFFE5E5E5),
         filled: true,
         contentPadding: const EdgeInsets.all(SharedValues.padding*2),
-        constraints: BoxConstraints(maxHeight: 55),
+        constraints: BoxConstraints(minHeight: 55),
         hintStyle: const TextStyle(fontSize: 12, color: Color(0xFF939393)),
       ),
       colorScheme: const ColorScheme(

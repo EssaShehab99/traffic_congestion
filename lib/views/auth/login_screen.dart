@@ -1,7 +1,14 @@
+import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:traffic_congestion/data/network/data_response.dart';
+import 'package:traffic_congestion/views/home/home_screen.dart';
 import 'package:traffic_congestion/views/shared/assets_variables.dart';
 import 'package:traffic_congestion/views/shared/button_widget.dart';
+import 'package:traffic_congestion/views/shared/shared_components.dart';
 import 'package:traffic_congestion/views/shared/text_field_widget.dart';
+
+import '../../data/providers/auth_provider.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({Key? key}) : super(key: key);
@@ -25,7 +32,6 @@ class _LoginScreenState extends State<LoginScreen> {
             padding: const EdgeInsets.only(top: 30.0),
             child: Form(
               key: _formKey,
-              autovalidateMode: AutovalidateMode.always,
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -64,10 +70,31 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                   const SizedBox(height: 20),
                   TextFieldWidget(
-                      hintText: 'Enter your username', controller: _email),
+                    hintText: 'Enter your username',
+                    controller: _email,
+                    keyboardType: TextInputType.emailAddress,
+                    validator: (value) {
+                      if (value?.isNotEmpty != true) {
+                        return 'Email is required';
+                      }
+                      if (!EmailValidator.validate(value!)) {
+                        return 'Invalid email format';
+                      }
+                      return null;
+                    },
+                  ),
                   const SizedBox(height: 20),
                   TextFieldWidget(
-                      hintText: 'Enter your password', controller: _password),
+                    hintText: 'Enter your password',
+                    controller: _password,
+                    obscureText: true,
+                    validator: (value) {
+                      if (value?.isNotEmpty!=true) {
+                        return 'Please enter your password';
+                      }
+                      return null;
+                    },
+                  ),
                   Padding(
                     padding: const EdgeInsets.only(left: 10),
                     child: Align(
@@ -93,7 +120,21 @@ class _LoginScreenState extends State<LoginScreen> {
                   Center(
                     child: ButtonWidget(
                       isCircle: true,
-                      onPressed: () {},
+                      onPressed: () async {
+                        if (_formKey.currentState!.validate()) {
+                          Result result = await Provider.of<AuthProvider>(
+                                  context,
+                                  listen: false)
+                              .login(_email.text, _password.text);
+                          if (!mounted) return;
+                          if (result is Success) {
+                            Navigator.push(context, MaterialPageRoute(builder: (context) => HomeScreen(),));
+                          } else if (result is Error){
+                            SharedComponents.showSnackBar(
+                                context,result.message??'An error occurred');
+                          }
+                        }
+                      },
                       child: Text(
                         'Login',
                         style: Theme.of(context).textTheme.button,

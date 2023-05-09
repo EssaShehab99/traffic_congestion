@@ -6,6 +6,6 @@ class Success<T> extends Result<T> {
   Success([this.value]);
 }
 class Error<T> extends Result<T> {
-  final T? exception;
-  Error([this.exception]);
+  final String? message;
+  Error([this.message]);
 }

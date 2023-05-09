@@ -1,17 +1,30 @@
+import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:traffic_congestion/data/models/user.dart';
+import 'package:traffic_congestion/data/network/data_response.dart';
+import 'package:traffic_congestion/data/providers/auth_provider.dart';
 import 'package:traffic_congestion/views/shared/assets_variables.dart';
 import 'package:traffic_congestion/views/shared/button_widget.dart';
 import 'package:traffic_congestion/views/shared/dropdown_field_widget.dart';
+import 'package:traffic_congestion/views/shared/shared_components.dart';
+import 'package:traffic_congestion/views/shared/shared_values.dart';
+import 'package:traffic_congestion/views/shared/shared_values.dart';
+import 'package:traffic_congestion/views/shared/shared_values.dart';
+import 'package:traffic_congestion/views/shared/shared_values.dart';
+import 'package:traffic_congestion/views/shared/shared_values.dart';
+import 'package:traffic_congestion/views/shared/shared_values.dart';
+import 'package:traffic_congestion/views/shared/shared_values.dart';
 import 'package:traffic_congestion/views/shared/text_field_widget.dart';
 
-class Register extends StatefulWidget {
-  const Register({Key? key}) : super(key: key);
+class RegisterScreen extends StatefulWidget {
+  const RegisterScreen({Key? key}) : super(key: key);
 
   @override
-  State<Register> createState() => _RegisterState();
+  State<RegisterScreen> createState() => _RegisterScreenState();
 }
 
-class _RegisterState extends State<Register> {
+class _RegisterScreenState extends State<RegisterScreen> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final TextEditingController _email = TextEditingController();
   final TextEditingController _name = TextEditingController();
@@ -30,34 +43,92 @@ class _RegisterState extends State<Register> {
             padding: const EdgeInsets.only(top: 30.0),
             child: Form(
               key: _formKey,
-              autovalidateMode: AutovalidateMode.always,
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const SizedBox(height: 20),
                   TextFieldWidget(
-                      hintText: 'Enter your name', controller: _name),
-                  const SizedBox(height: 20),
+                    hintText: 'Enter your name',
+                    controller: _name,
+                    keyboardType: TextInputType.text,
+                    validator: (value) {
+                      if (value?.isNotEmpty != true) {
+                        return 'Name is required';
+                      }
+                      return null;
+                    },
+                  ),
+                  const SizedBox(height: SharedValues.padding * 2),
                   TextFieldWidget(
-                      hintText: 'Enter your last ID', controller: _idNumber),
-                  const SizedBox(height: 20),
+                    hintText: 'Enter your last ID',
+                    controller: _idNumber,
+                    keyboardType: TextInputType.number,
+                    validator: (value) {
+                      if (value?.isNotEmpty != true) {
+                        return 'ID number is required';
+                      }
+                      if (value?.length != 10) {
+                        return 'ID number must be 10 digits';
+                      }
+                      return null;
+                    },
+                  ),
+                  const SizedBox(height: SharedValues.padding * 2),
                   TextFieldWidget(
-                      hintText: 'Enter your phone', controller: _phone),
-                  const SizedBox(height: 20),
+                    hintText: 'Enter your phone',
+                    controller: _phone,
+                    keyboardType: TextInputType.phone,
+                    validator: (value) {
+                      if (value?.isNotEmpty != true) {
+                        return 'Phone number is required';
+                      }
+                      return null;
+                    },
+                  ),
+                  const SizedBox(height: SharedValues.padding * 2),
                   TextFieldWidget(
-                      hintText: 'Enter your email', controller: _email),
-                  const SizedBox(height: 20),
+                    hintText: 'Enter your email',
+                    controller: _email,
+                    keyboardType: TextInputType.emailAddress,
+                    validator: (value) {
+                      if (value?.isNotEmpty != true) {
+                        return 'Email is required';
+                      }
+                      if (!EmailValidator.validate(value!)) {
+                        return 'Invalid email format';
+                      }
+                      return null;
+                    },
+                  ),
+                  const SizedBox(height: SharedValues.padding * 2),
                   TextFieldWidget(
-                      hintText: 'Enter your password', controller: _password),
-                  const SizedBox(height: 20),
+                    hintText: 'Enter your password',
+                    controller: _password,
+                    obscureText: true,
+                    validator: (value) {
+                      if (value?.isNotEmpty != true) {
+                        return 'Password is required';
+                      }
+                      if (value!.length < 6) {
+                        return 'Password must be at least 6 characters';
+                      }
+                      return null;
+                    },
+                  ),
+                  const SizedBox(height: SharedValues.padding * 2),
                   DropdownFieldWidget(
                     items: [
                       DropdownMenuItemModel(text: 'ذكر', id: 1),
                       DropdownMenuItemModel(text: 'انثى', id: 2),
                     ],
                     onChanged: (value) {
-                      gender=value?.text;
+                      gender = value?.text;
+                    },
+                    validator: (value) {
+                      if (value == null) {
+                        return 'Gender is required';
+                      }
+                      return null;
                     },
                     hintText: 'Enter your gender',
                     keyDropDown: GlobalKey(),
@@ -67,7 +138,7 @@ class _RegisterState extends State<Register> {
                     child: Align(
                       alignment: Alignment.centerLeft,
                       child: TextButton(
-                        onPressed: () {},
+                        onPressed: () async {},
                         style: ButtonStyle(
                           overlayColor: MaterialStateProperty.all<Color>(
                             Colors.transparent,
@@ -87,14 +158,35 @@ class _RegisterState extends State<Register> {
                   Center(
                     child: ButtonWidget(
                       isCircle: true,
-                      onPressed: () {},
+                      onPressed: () async {
+                        if (_formKey.currentState!.validate()) {
+                          final User user = User(
+                              email: _email.text,
+                              name: _name.text,
+                              idNumber: _idNumber.text,
+                              phone: _phone.text,
+                              password: _password.text);
+                          Result result = await Provider.of<AuthProvider>(
+                                  context,
+                                  listen: false)
+                              .register(user);
+                          if (!mounted) return;
+                          if (result is Success) {
+                            SharedComponents.showSnackBar(
+                                context, 'Success Register');
+                          } else if (result is Error){
+                            SharedComponents.showSnackBar(
+                                context,result.message??'An error occurred');
+                          }
+                        }
+                      },
                       child: Text(
                         'Login',
                         style: Theme.of(context).textTheme.button,
                       ),
                     ),
                   ),
-                  const SizedBox(height: 20),
+                  const SizedBox(height: SharedValues.padding * 2),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [

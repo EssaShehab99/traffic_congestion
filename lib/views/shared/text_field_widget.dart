@@ -39,32 +39,25 @@ class TextFieldWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      mainAxisSize: MainAxisSize.min,
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        const SizedBox(height: SharedValues.padding),
-        TextFormField(
-          textInputAction: textInputAction,
-          validator: validator,
-          onChanged: onChanged,
-          maxLines: maxLines ?? 1,
-          autovalidateMode: AutovalidateMode.onUserInteraction,
-          textDirection: textDirection,
-          controller: controller,
-          readOnly: readOnly ?? false,
-          obscureText: obscureText ?? false,
-          keyboardType: keyboardType,
-          onTap: onTap,
-          focusNode: focusNode,
-          textAlign: textAlign ?? TextAlign.start,
-          style: Theme.of(context).textTheme.subtitle1,
-          decoration: InputDecoration(
-            hintText: hintText,
-              contentPadding:contentPadding??
-              Theme.of(context).inputDecorationTheme.contentPadding,prefixIcon: prefixIcon),
-        ),
-      ],
+    return TextFormField(
+      textInputAction: textInputAction,
+      validator: validator,
+      onChanged: onChanged,
+      maxLines: maxLines ?? 1,
+      autovalidateMode: AutovalidateMode.onUserInteraction,
+      textDirection: textDirection,
+      controller: controller,
+      readOnly: readOnly ?? false,
+      obscureText: obscureText ?? false,
+      keyboardType: keyboardType,
+      onTap: onTap,
+      focusNode: focusNode,
+      textAlign: textAlign ?? TextAlign.start,
+      style: Theme.of(context).textTheme.subtitle1,
+      decoration: InputDecoration(
+        hintText: hintText,
+          contentPadding:contentPadding??
+          Theme.of(context).inputDecorationTheme.contentPadding,prefixIcon: prefixIcon),
     );
   }
 }
