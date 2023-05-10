@@ -8,14 +8,14 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import '/views/shared/dropdown_field_widget.dart';
 import '/views/shared/shared_components.dart';
 
-class MapWidget extends StatefulWidget {
-  const MapWidget({Key? key}) : super(key: key);
+class RoadMapWidget extends StatefulWidget {
+  const RoadMapWidget({Key? key}) : super(key: key);
 
   @override
-  State<MapWidget> createState() => _MapWidgetState();
+  State<RoadMapWidget> createState() => _RoadMapWidgetState();
 }
 
-class _MapWidgetState extends State<MapWidget> {
+class _RoadMapWidgetState extends State<RoadMapWidget> {
   List<Marker> markers = [];
   late Completer<GoogleMapController> _controller;
   late CameraPosition initialCameraPosition;
@@ -24,7 +24,7 @@ class _MapWidgetState extends State<MapWidget> {
     _controller = Completer();
     initialCameraPosition = const CameraPosition(
       target: LatLng(21.430399643909276, 40.47577334606505),
-      zoom: 16.7,
+      zoom: 12.7,
     );
     super.initState();
   }

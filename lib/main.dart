@@ -15,6 +15,7 @@ import 'package:traffic_congestion/firebase_options.dart';
 import 'package:traffic_congestion/views/auth/login_screen.dart';
 import 'package:traffic_congestion/views/auth/onboarding_screen.dart';
 import 'package:traffic_congestion/views/auth/register_screen.dart';
+import 'package:traffic_congestion/views/home/home_screen.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -52,7 +53,7 @@ class MyApp extends StatelessWidget {
         locale: context.locale,
         debugShowCheckedModeBanner: false,
         theme: ThemeApp.light,
-        home: const LoginScreen(),
+        home: const HomeScreen(),
         // home: user == null ? const SignInScreen() : const HomeScreen(),
         // home:  const SignInScreen(),
         // home: const MainScreen(),

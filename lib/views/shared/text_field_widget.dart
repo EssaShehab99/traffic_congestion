@@ -17,6 +17,7 @@ class TextFieldWidget extends StatelessWidget {
         this.textDirection,
         this.prefixIcon,
         this.suffixIcon,
+        this.fillColor,
         this.textInputAction,
         this.maxLines, this.contentPadding})
       : super(key: key);
@@ -36,6 +37,7 @@ class TextFieldWidget extends StatelessWidget {
   final Widget? prefixIcon;
   final ValueChanged<String>? onChanged;
   final EdgeInsetsGeometry? contentPadding;
+  final Color? fillColor;
 
   @override
   Widget build(BuildContext context) {
@@ -56,8 +58,9 @@ class TextFieldWidget extends StatelessWidget {
       style: Theme.of(context).textTheme.subtitle1,
       decoration: InputDecoration(
         hintText: hintText,
+          fillColor: fillColor,
           contentPadding:contentPadding??
-          Theme.of(context).inputDecorationTheme.contentPadding,prefixIcon: prefixIcon),
+          Theme.of(context).inputDecorationTheme.contentPadding,prefixIcon: prefixIcon,suffixIcon: suffixIcon),
     );
   }
 }

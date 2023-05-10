@@ -1,5 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:traffic_congestion/views/map_screen/map_widget.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+import 'package:traffic_congestion/views/paeking/parking_screen.dart';
+import 'package:traffic_congestion/views/road/routeing_routeing_screen.dart';
+import 'package:traffic_congestion/views/routeing/road_routeing_screen.dart';
+import 'package:traffic_congestion/views/shared/assets_variables.dart';
+import 'package:traffic_congestion/views/shared/button_widget.dart';
+import 'package:traffic_congestion/views/shared/shared_components.dart';
+import 'package:traffic_congestion/views/shared/shared_values.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -11,8 +18,93 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
-    return SafeArea(child: Scaffold(
-      body: MapWidget(),
+    return SafeArea(
+        child: Scaffold(
+      body: Column(
+        children: [
+          SharedComponents.appBar('Home'),
+          Expanded(
+              child: ListView(
+            children: [
+              _buildButtonWidget(
+                image: AssetsVariable.routeing,
+                text: 'Routeing',
+                onPressed: () {
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => const RouteingScreen()));
+                },
+              ),
+              _buildButtonWidget(
+                image: AssetsVariable.parking,
+                text: 'Parking',
+                onPressed: () {
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => const ParkingScreen()));
+                },
+              ),
+              _buildButtonWidget(
+                  image: AssetsVariable.road, text: 'Show Road Status',onPressed: () {
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => const RoadScreen()));
+
+              },),
+            ],
+          ))
+        ],
+      ),
     ));
+  }
+
+  Widget _buildButtonWidget(
+      {required String image, required String text, VoidCallback? onPressed}) {
+    return Builder(builder: (context) {
+      return Padding(
+        padding: const EdgeInsets.all(SharedValues.padding),
+        child: Container(
+          decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(SharedValues.borderRadius),
+              border: Border.all(color: Theme.of(context).primaryColor)),
+          child: ButtonWidget(
+            onPressed: onPressed,
+            elevation: 0,
+            color: Theme.of(context).colorScheme.onPrimary,
+            child: Padding(
+              padding: const EdgeInsets.all(SharedValues.padding),
+              child: SizedBox(
+                  height: 120,
+                  child: Row(
+                    children: [
+                      SizedBox(
+                        width: 100,
+                        child: SvgPicture.asset(
+                            height: 100,
+                            width: 100,
+                            fit: BoxFit.scaleDown,
+                            image),
+                      ),
+                      Expanded(
+                        child: Padding(
+                          padding: const EdgeInsets.all(SharedValues.padding),
+                          child: Align(
+                              alignment: AlignmentDirectional.centerStart,
+                              child: Text(
+                                text,
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .headlineLarge
+                                    ?.copyWith(
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.bold),
+                                textAlign: TextAlign.center,
+                              )),
+                        ),
+                      ),
+                    ],
+                  )),
+            ),
+          ),
+        ),
+      );
+    });
   }
 }

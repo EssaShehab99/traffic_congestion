@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+import 'package:traffic_congestion/views/shared/assets_variables.dart';
+import 'package:traffic_congestion/views/shared/shared_values.dart';
 
 class SharedComponents {
   SharedComponents._privateConstructor();
@@ -6,8 +9,8 @@ class SharedComponents {
       SharedComponents._privateConstructor();
   static SharedComponents get instance => _instance;
 
-
-  static showSnackBar(BuildContext context, String text, {Color? backgroundColor}) {
+  static showSnackBar(BuildContext context, String text,
+      {Color? backgroundColor}) {
     return WidgetsBinding.instance.addPostFrameCallback((_) {
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
         content: Row(
@@ -56,52 +59,50 @@ class SharedComponents {
     });
   }
 
-  // static Future<dynamic> showOverlayLoading(
-  //         BuildContext context, Future<Object>? futureFun,
-  //         {Color? color, Color? progressColor}) =>
-  //     showDialog(
-  //       context: context,
-  //       barrierDismissible: false,
-  //       barrierColor: Colors.transparent,
-  //       builder: (BuildContext context) {
-  //         return WillPopScope(
-  //           onWillPop: () async => false,
-  //           child: FutureBuilder(
-  //               future: futureFun(),
-  //               builder: (_, snapshot) {
-  //                 if (snapshot.connectionState == ConnectionState.done) {
-  //                   WidgetsBinding.instance.addPostFrameCallback((_) {
-  //                     Navigator.pop(context, snapshot.data);
-  //                   });
-  //                 }
-  //                 return SizedBox(
-  //                     height: 200,
-  //                     width: 200,
-  //                     child: Align(
-  //                       child: AvatarGlow(
-  //                         glowColor: color ?? Theme.of(context).primaryColor,
-  //                         duration: const Duration(
-  //                           milliseconds: 2000,
-  //                         ),
-  //                         repeat: true,
-  //                         showTwoGlows: true,
-  //                         endRadius: 50,
-  //                         child: Container(
-  //                             height: 50,
-  //                             width: 50,
-  //                             decoration: BoxDecoration(
-  //                                 color: Colors.white12,
-  //                                 borderRadius: BorderRadius.circular(120)),
-  //                             child: CircularProgressIndicator(
-  //                               backgroundColor: progressColor ??
-  //                                   Theme.of(context).colorScheme.primary,
-  //                               valueColor: AlwaysStoppedAnimation<Color>(
-  //                                   color ?? Theme.of(context).primaryColor),
-  //                             )),
-  //                       ),
-  //                     ));
-  //               }),
-  //         );
-  //       },
-  //     );
+  static Widget appBar(String title,
+      {bool? withBackBtn, bool? withUserOptions}) {
+    List<String> listItem = ["Sign out"];
+    return Builder(
+        builder: (context) => Container(
+              width: double.infinity,
+              height: 150,
+              decoration: BoxDecoration(
+                color: Theme.of(context).primaryColor,
+                borderRadius: const BorderRadius.vertical(
+                    bottom: Radius.circular(SharedValues.borderRadius)),
+              ),
+              child: Align(
+                alignment: Alignment.bottomCenter,
+                child: Padding(
+                  padding: const EdgeInsets.fromLTRB(
+                      SharedValues.padding * 2,
+                      0,
+                      SharedValues.padding * 2,
+                      SharedValues.padding),
+                  child: Row(
+                    children: [
+                      Expanded(
+                        child: Align(
+                          alignment: AlignmentDirectional.centerStart,
+                          child: Text(
+                            title,
+                            style: Theme.of(context).textTheme.headline2?.copyWith(fontSize: 25),
+                          ),
+                        ),
+                      ),
+                      Expanded(
+                        child: Align(
+                          alignment: AlignmentDirectional.centerEnd,
+                          child: SvgPicture.asset(
+                            AssetsVariable.logo,
+                            alignment: AlignmentDirectional.centerEnd,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ));
+  }
 }

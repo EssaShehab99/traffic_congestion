@@ -8,6 +8,8 @@ class ButtonWidget extends StatefulWidget {
       this.minWidth,
       this.height,
       this.child,
+      this.color,
+      this.elevation,
       this.isCircle})
       : super(key: key);
   final Function()? onPressed;
@@ -15,6 +17,8 @@ class ButtonWidget extends StatefulWidget {
   final double? height;
   final Widget? child;
   final bool? isCircle;
+  final Color? color;
+  final double? elevation;
 
   @override
   State<ButtonWidget> createState() => _ButtonWidgetState();
@@ -37,7 +41,8 @@ class _ButtonWidgetState extends State<ButtonWidget> {
       height: widget.height ?? 45,
       padding: EdgeInsets.zero,
       minWidth: widget.minWidth,
-      color: Theme.of(context).primaryColor ,
+      elevation: widget.elevation,
+      color: widget.color??Theme.of(context).primaryColor ,
       shape: OutlineInputBorder(
           borderRadius: BorderRadius.circular(widget.isCircle==true?100:SharedValues.borderRadius),
           borderSide: BorderSide.none
