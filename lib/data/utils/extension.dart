@@ -25,6 +25,12 @@ extension IterableExtension<T> on Iterable<T> {
 
     return result;
   }
+  T? get(int index) {
+    if(length>index) {
+      return elementAt(index);
+    }
+    return null;
+  }
 }
 
 extension StringExtension on String {

@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 class TextFieldWidget extends StatelessWidget {
   const TextFieldWidget(
       {Key? key,
-        required this.controller,
+         this.controller,
         this.hintText,
         this.validator,
         this.keyboardType,
@@ -21,7 +21,7 @@ class TextFieldWidget extends StatelessWidget {
         this.textInputAction,
         this.maxLines, this.contentPadding})
       : super(key: key);
-  final TextEditingController controller;
+  final TextEditingController? controller;
   final String? hintText;
   final bool? readOnly;
   final TextAlign? textAlign;
