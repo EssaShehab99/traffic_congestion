@@ -43,7 +43,7 @@ class AuthApi {
       DocumentSnapshot snapshot =
       await _firestore.collection('users').doc(uid).get();
       Map<String, dynamic>? userData = snapshot.data() as Map<String, dynamic>?;
-
+      userData?['id']=uid;
       if (userData == null) {
         throw FirebaseException(
             code: 'not-found', message: 'User data not found', plugin: '');

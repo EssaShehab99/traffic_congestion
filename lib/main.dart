@@ -13,15 +13,16 @@ import 'package:traffic_congestion/data/providers/auth_provider.dart';
 import 'package:traffic_congestion/style/theme_app.dart';
 import 'package:traffic_congestion/firebase_options.dart';
 import 'package:traffic_congestion/views/auth/login_screen.dart';
-import 'package:traffic_congestion/views/auth/onboarding_screen.dart';
-import 'package:traffic_congestion/views/auth/register_screen.dart';
 import 'package:traffic_congestion/views/home/home_screen.dart';
+
+import 'data/providers/routeinf_provider.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await EasyLocalization.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   final preferences = Preferences.instance;
+// (await preferences.delete(PreferenceVariable.user));
   String? date = (await preferences.get(PreferenceVariable.user))?.toString();
   User? user = date == null ? null : User.fromJson(jsonDecode(date));
 
@@ -45,6 +46,7 @@ class MyApp extends StatelessWidget {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (_) => AuthProvider()..setUser(user)),
+        ChangeNotifierProvider(create: (_) => RouteingProvider()),
       ],
       child: MaterialApp(
         title: 'Flutter Demo',
@@ -53,8 +55,8 @@ class MyApp extends StatelessWidget {
         locale: context.locale,
         debugShowCheckedModeBanner: false,
         theme: ThemeApp.light,
-        home: const HomeScreen(),
-        // home: user == null ? const SignInScreen() : const HomeScreen(),
+        // home: const HomeScreen(),
+        home: user == null ? const LoginScreen() : const HomeScreen(),
         // home:  const SignInScreen(),
         // home: const MainScreen(),
         // home: VerifyOTP(isSignUp: true),
