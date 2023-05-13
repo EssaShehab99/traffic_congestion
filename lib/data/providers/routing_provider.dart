@@ -3,15 +3,15 @@ import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:traffic_congestion/data/di/service_locator.dart';
 import 'package:traffic_congestion/data/network/data_response.dart';
-import 'package:traffic_congestion/data/repositories/routeing_repository.dart';
+import 'package:traffic_congestion/data/repositories/routing_repository.dart';
 
-class RouteingProvider extends ChangeNotifier{
-  final _routeingRepository = getIt.get<RouteingRepository>();
+class RoutingProvider extends ChangeNotifier{
+  final _routingRepository = getIt.get<RoutingRepository>();
   List<String> filteredList = [];
   LatLng? endLocation;
 
   Future<void> filterItems(String searchText) async {
-    Result result= await  _routeingRepository.search(searchText);
+    Result result= await  _routingRepository.search(searchText);
     if(result is Success){
       filteredList = result.value;
       notifyListeners();
@@ -59,7 +59,7 @@ class RouteingProvider extends ChangeNotifier{
   }
 
   Future<List<LatLng>> getRouteBetweenCoordinates(LatLng start, LatLng end) async{
-    Result result = await _routeingRepository.getRouteBetweenCoordinates(start, end);
+    Result result = await _routingRepository.getRouteBetweenCoordinates(start, end);
     if (result is Success) {
       return result.value;
     }

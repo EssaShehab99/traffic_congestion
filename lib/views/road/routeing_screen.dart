@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:traffic_congestion/views/road/road_map_widget.dart';
-import 'package:traffic_congestion/views/routeing/routeing_map_widget.dart';
+import 'package:traffic_congestion/views/routing/routing_map_widget.dart';
 import 'package:traffic_congestion/views/shared/shared_values.dart';
 
 class RoadScreen extends StatefulWidget {
@@ -31,7 +31,7 @@ class _RoadScreenState extends State<RoadScreen> {
                 style: Theme.of(context).textTheme.headline2,
               ),
             ),
-            Expanded(child: const RouteingMapWidget()),
+            Expanded(child: const RoutingMapWidget()),
           ],
         ),
       ),

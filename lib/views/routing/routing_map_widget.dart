@@ -6,27 +6,27 @@ import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:provider/provider.dart';
-import 'package:traffic_congestion/data/providers/routeinf_provider.dart';
+import 'package:traffic_congestion/data/providers/routing_provider.dart';
 
-class RouteingMapWidget extends StatefulWidget {
-  const RouteingMapWidget({Key? key}) : super(key: key);
+class RoutingMapWidget extends StatefulWidget {
+  const RoutingMapWidget({Key? key}) : super(key: key);
 
   @override
-  State<RouteingMapWidget> createState() => _RouteingMapWidgetState();
+  State<RoutingMapWidget> createState() => _RoutingMapWidgetState();
 }
 
-class _RouteingMapWidgetState extends State<RouteingMapWidget> {
+class _RoutingMapWidgetState extends State<RoutingMapWidget> {
   List<Marker> markers = [];
   LatLng? currentLocation;
   late Completer<GoogleMapController> _controller;
   late CameraPosition initialCameraPosition;
   late GoogleMapController _googleMapController;
   Map<PolylineId, Polyline> polylines = {};
-  late RouteingProvider provider;
+  late RoutingProvider provider;
 
   @override
   void initState() {
-    provider = Provider.of<RouteingProvider>(context, listen: false);
+    provider = Provider.of<RoutingProvider>(context, listen: false);
     _controller = Completer();
     initialCameraPosition = const CameraPosition(
       target: LatLng(21.430399643909276, 40.47577334606505),
@@ -99,7 +99,7 @@ class _RouteingMapWidgetState extends State<RouteingMapWidget> {
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: false,
-      body: Selector<RouteingProvider, LatLng?>(
+      body: Selector<RoutingProvider, LatLng?>(
           selector: (p0, p1) => p1.endLocation,
           builder: (context, value, child) {
             if (value != null) {

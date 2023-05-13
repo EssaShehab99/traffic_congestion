@@ -15,7 +15,7 @@ import 'package:traffic_congestion/firebase_options.dart';
 import 'package:traffic_congestion/views/auth/login_screen.dart';
 import 'package:traffic_congestion/views/home/home_screen.dart';
 
-import 'data/providers/routeinf_provider.dart';
+import 'data/providers/routing_provider.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -46,7 +46,7 @@ class MyApp extends StatelessWidget {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (_) => AuthProvider()..setUser(user)),
-        ChangeNotifierProvider(create: (_) => RouteingProvider()),
+        ChangeNotifierProvider(create: (_) => RoutingProvider()),
       ],
       child: MaterialApp(
         title: 'Flutter Demo',

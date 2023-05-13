@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:traffic_congestion/views/paeking/parking_screen.dart';
-import 'package:traffic_congestion/views/routeing/routeing_screen.dart';
 import 'package:traffic_congestion/views/road/routeing_screen.dart';
+import 'package:traffic_congestion/views/routing/routing_screen.dart';
 import 'package:traffic_congestion/views/shared/assets_variables.dart';
 import 'package:traffic_congestion/views/shared/button_widget.dart';
 import 'package:traffic_congestion/views/shared/shared_components.dart';
@@ -27,11 +27,11 @@ class _HomeScreenState extends State<HomeScreen> {
               child: ListView(
             children: [
               _buildButtonWidget(
-                image: AssetsVariable.routeing,
-                text: 'Routeing',
+                image: AssetsVariable.routing,
+                text: 'Routing',
                 onPressed: () {
                   Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => const RouteingScreen()));
+                      MaterialPageRoute(builder: (context) => const RoutingScreen()));
                 },
               ),
               _buildButtonWidget(

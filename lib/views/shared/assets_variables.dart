@@ -7,6 +7,6 @@
   static const String standardKsaMap="assets/images/standard_ksa_map.png";
   static const String parking="assets/images/parking.svg";
   static const String logo="assets/images/logo.svg";
-  static const String routeing="assets/images/routeing.svg";
+  static const String routing="assets/images/routing.svg";
   static const String road="assets/images/road.svg";
 }

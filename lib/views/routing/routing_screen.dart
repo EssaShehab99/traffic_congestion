@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:traffic_congestion/data/providers/routeinf_provider.dart';
-import 'package:traffic_congestion/views/routeing/routeing_map_widget.dart';
+import 'package:traffic_congestion/data/providers/routing_provider.dart';
+import 'package:traffic_congestion/views/routing/routing_map_widget.dart';
 import 'package:traffic_congestion/views/shared/button_widget.dart';
 import 'package:traffic_congestion/views/shared/dropdown_field_widget.dart';
 import 'package:traffic_congestion/views/shared/shared_components.dart';
@@ -10,19 +10,19 @@ import 'package:traffic_congestion/views/shared/text_field_widget.dart';
 
 import '../road/road_map_widget.dart';
 
-class RouteingScreen extends StatefulWidget {
-  const RouteingScreen({Key? key}) : super(key: key);
+class RoutingScreen extends StatefulWidget {
+  const RoutingScreen({Key? key}) : super(key: key);
 
   @override
-  State<RouteingScreen> createState() => _RouteingScreenState();
+  State<RoutingScreen> createState() => _RoutingScreenState();
 }
 
-class _RouteingScreenState extends State<RouteingScreen> {
-  late RouteingProvider provider;
+class _RoutingScreenState extends State<RoutingScreen> {
+  late RoutingProvider provider;
   String? title;
   @override
   void initState() {
-    provider = Provider.of<RouteingProvider>(context, listen: false);
+    provider = Provider.of<RoutingProvider>(context, listen: false);
     super.initState();
   }
 
@@ -32,7 +32,7 @@ class _RouteingScreenState extends State<RouteingScreen> {
       child: Scaffold(
         body: Stack(
           children: [
-            const RouteingMapWidget(),
+            const RoutingMapWidget(),
             Padding(
                 padding: EdgeInsets.all(SharedValues.padding),
                 child: StatefulBuilder(builder: (context, setStateWidget) {
@@ -51,7 +51,7 @@ class _RouteingScreenState extends State<RouteingScreen> {
                                 onChanged: provider.filterItems,
                               ),
                               Expanded(
-                                child: Selector<RouteingProvider, List<String>>(
+                                child: Selector<RoutingProvider, List<String>>(
                                     selector: (p0, p1) => p1.filteredList,
                                     builder: (context, value, child) {
                                       return ListView.builder(
