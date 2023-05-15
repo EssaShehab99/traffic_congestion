@@ -8,7 +8,7 @@ import 'package:traffic_congestion/views/shared/shared_components.dart';
 import 'package:traffic_congestion/views/shared/shared_values.dart';
 import 'package:traffic_congestion/views/shared/text_field_widget.dart';
 
-import '../road/road_map_widget.dart';
+import 'package:http/http.dart' as http;
 
 class RoutingScreen extends StatefulWidget {
   const RoutingScreen({Key? key}) : super(key: key);
@@ -63,6 +63,15 @@ class _RoutingScreenState extends State<RoutingScreen> {
                   );
                 })),
           ],
+        ),
+        floatingActionButton: FloatingActionButton(
+          onPressed:() async {
+            final response = await http.get(Uri.parse('https://jsonplaceholder.typicode.com/todos/1'));
+            print(response.statusCode);
+
+            // Provider.of<RoutingProvider>(context,listen: false).getRoutes();
+          },
+          child: Icon(Icons.location_on),
         ),
       ),
     );

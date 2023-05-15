@@ -54,7 +54,7 @@ class DefaultFirebaseOptions {
 
   static const FirebaseOptions android = FirebaseOptions(
     apiKey: 'AIzaSyB3b15c7cLuGFZdQ0DD8vPdIXj4WhYUQVg',
-    appId: '1:674426290422:android:ecea7c2345d53721096cd7',
+    appId: '1:674426290422:android:80a6e38a374dfba9096cd7',
     messagingSenderId: '674426290422',
     projectId: 'trafficcongestion-da8ad',
     storageBucket: 'trafficcongestion-da8ad.appspot.com',

@@ -40,64 +40,54 @@ class _RoutingMapWidgetState extends State<RoutingMapWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      resizeToAvoidBottomInset: false,
-      body: Selector<RoutingProvider, LatLng?>(
-          selector: (p0, p1) => p1.destination,
-          builder: (context, value, child) {
-            if (value != null) {
-              markers = [];
-              markers.add(Marker(
-                markerId: const MarkerId("1"),
-                position: value,
-                infoWindow: const InfoWindow(
-                  title: 'hospital-location',
-                ),
-              ));
-            }
-            return FutureBuilder(
-                // future: provider.determinePosition(),
-                builder: (context, snapshot) {
-              if (snapshot.connectionState == ConnectionState.waiting) {
-                return const LoadingWidget();
-              }
-
-              return Selector<RoutingProvider,Map<PolylineId, Polyline>>(
-                selector: (p0, p1) => p1.polylines,
-                builder:(context, value, child) {
-                  return GoogleMap(
-                    markers: Set<Marker>.of(markers),
-                    polylines: Set<Polyline>.of(value.values),
-                    mapType: MapType.normal,
-                    zoomControlsEnabled: false,
-                    myLocationButtonEnabled: false,
-                    myLocationEnabled: true,
-                    gestureRecognizers: Set()
-                      ..add(Factory<PanGestureRecognizer>(
-                          () => PanGestureRecognizer()))
-                      ..add(Factory<ScaleGestureRecognizer>(
-                          () => ScaleGestureRecognizer()))
-                      ..add(Factory<TapGestureRecognizer>(
-                          () => TapGestureRecognizer()))
-                      ..add(Factory<VerticalDragGestureRecognizer>(
-                          () => VerticalDragGestureRecognizer())),
-                    initialCameraPosition: initialCameraPosition,
-                    onMapCreated: (GoogleMapController controller) {
-                      _googleMapController = controller;
-                      _controller.complete(controller);
-                    },
-                  );
+    return Selector<RoutingProvider, LatLng?>(
+        selector: (p0, p1) => p1.destination,
+        builder: (context, value, child) {
+          if (value != null) {
+            markers = [];
+            markers.add(Marker(
+              markerId: const MarkerId("1"),
+              position: value,
+              infoWindow: const InfoWindow(
+                title: 'hospital-location',
+              ),
+            ));
+          }
+          return FutureBuilder(
+            future: provider.determinePosition(),
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return const LoadingWidget();
                 }
-              );
-            });
-          }),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () async {
-          final response = await http.get(Uri.parse('https://jsonplaceholder.typicode.com/todos/1'));
-print(response.statusCode);
-        },
-        child: Icon(Icons.location_on),
-      ),
-    );
+
+                return Selector<RoutingProvider,Map<PolylineId, Polyline>>(
+                    selector: (p0, p1) => p1.polylines,
+                    builder:(context, value, child) {
+                      return GoogleMap(
+                        markers: Set<Marker>.of(markers),
+                        polylines: Set<Polyline>.of(value.values),
+                        mapType: MapType.normal,
+                        zoomControlsEnabled: false,
+                        myLocationButtonEnabled: false,
+                        myLocationEnabled: true,
+                        gestureRecognizers: Set()
+                          ..add(Factory<PanGestureRecognizer>(
+                                  () => PanGestureRecognizer()))
+                          ..add(Factory<ScaleGestureRecognizer>(
+                                  () => ScaleGestureRecognizer()))
+                          ..add(Factory<TapGestureRecognizer>(
+                                  () => TapGestureRecognizer()))
+                          ..add(Factory<VerticalDragGestureRecognizer>(
+                                  () => VerticalDragGestureRecognizer())),
+                        initialCameraPosition: initialCameraPosition,
+                        onMapCreated: (GoogleMapController controller) {
+                          _googleMapController = controller;
+                          _controller.complete(controller);
+                        },
+                      );
+                    }
+                );
+              });
+        });
   }
 }

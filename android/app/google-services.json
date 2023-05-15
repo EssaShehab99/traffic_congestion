@@ -7,7 +7,7 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:674426290422:android:ecea7c2345d53721096cd7",
+        "mobilesdk_app_id": "1:674426290422:android:80a6e38a374dfba9096cd7",
         "android_client_info": {
           "package_name": "com.example.traffic_congestion"
         }
