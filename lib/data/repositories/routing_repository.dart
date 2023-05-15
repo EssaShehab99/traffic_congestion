@@ -10,32 +10,13 @@ class RoutingRepository {
   final RoutingApi _routingApi;
   RoutingRepository(this._routingApi);
 
-  Future<Result> getRouteBetweenCoordinates(LatLng start, LatLng end) async{
+  Future<Result> getRoutes(LatLng start, LatLng end) async {
     try {
-
-      final response = await _routingApi.getRouteBetweenCoordinates(start.latitude, start.longitude, end.latitude, end.longitude);
-
-      List<LatLng> coordinates = List.of(List.of(jsonDecode(response.body)["route"]["legs"]).get(0)["maneuvers"])
-          .map((e) => LatLng(e["startPoint"]["lat"], e["startPoint"]["lng"]))
-          .toList();
-      return Success(coordinates);
+      final routes = await _routingApi.getRoutes(
+          start.latitude, start.longitude, end.latitude, end.longitude);
+      return Success(routes);
     } catch (e) {
       return Error(e.toString());
     }
   }
-
-  Future<Result> search(String word) async{
-    try {
-      List<String> list=['Item 1', 'Item 2', 'Item 3', 'Item 4'];
-      // final response = await _routingApi.search(word);
-      //
-      // if(response.statusCode==200){
-      //   list=jsonDecode(response.body);
-      // }
-      return Success(list);
-    } catch (e) {
-      return Error(e.toString());
-    }
-  }
-
 }

@@ -7,6 +7,8 @@ import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:traffic_congestion/data/providers/routing_provider.dart';
+import 'package:traffic_congestion/views/shared/loading_widget.dart';
+import 'package:http/http.dart' as http;
 
 class RoutingMapWidget extends StatefulWidget {
   const RoutingMapWidget({Key? key}) : super(key: key);
@@ -17,82 +19,24 @@ class RoutingMapWidget extends StatefulWidget {
 
 class _RoutingMapWidgetState extends State<RoutingMapWidget> {
   List<Marker> markers = [];
-  LatLng? currentLocation;
   late Completer<GoogleMapController> _controller;
   late CameraPosition initialCameraPosition;
   late GoogleMapController _googleMapController;
-  Map<PolylineId, Polyline> polylines = {};
   late RoutingProvider provider;
 
   @override
   void initState() {
     provider = Provider.of<RoutingProvider>(context, listen: false);
     _controller = Completer();
-    initialCameraPosition = const CameraPosition(
-      target: LatLng(21.430399643909276, 40.47577334606505),
-      zoom: 15.7,
+    initialCameraPosition =  CameraPosition(
+      target: provider.destination,
+      zoom: 12.5,
     );
-    _getCurrentLocation();
+    markers.add(Marker(
+      markerId: MarkerId(provider.destination.hashCode.toString()),
+      position: provider.destination, //position of marker
+    ));
     super.initState();
-  }
-
-  Future<void> selectLocation(LatLng selectedLocation, String title) async {
-    provider.endLocation = selectedLocation;
-    markers.add(Marker(
-      //add start location marker
-      markerId: MarkerId(selectedLocation.toString()),
-      position: selectedLocation, //position of marker
-      infoWindow: InfoWindow(
-        //popup info
-        title: title,
-      ),
-    ));
-  }
-
-  Future<void> getDirections() async {
-    List<LatLng> polylineCoordinates = [];
-    if (currentLocation == null || provider.endLocation == null) return;
-
-    for (var point in await provider.getRouteBetweenCoordinates(
-        currentLocation!, provider.endLocation!)) {
-      polylineCoordinates.add(LatLng(point.latitude, point.longitude));
-    }
-    addPolyLine(polylineCoordinates);
-  }
-
-  void addPolyLine(List<LatLng> polylineCoordinates) {
-    PolylineId id = const PolylineId("poly");
-    Polyline polyline = Polyline(
-      polylineId: id,
-      color: Theme.of(context).primaryColor,
-      points: polylineCoordinates,
-      width: 3,
-    );
-    polylines[id] = polyline;
-  }
-
-  _getCurrentLocation() async {
-    Position position = await provider.determinePosition();
-    currentLocation = LatLng(position.latitude, position.longitude);
-    if (currentLocation == null) return;
-    final cameraPosition = CameraPosition(
-      target: currentLocation!,
-      zoom: 15.0,
-    );
-    _googleMapController
-        .animateCamera(CameraUpdate.newCameraPosition(cameraPosition));
-  }
-
-  _handleTap(LatLng point) async {
-    provider.endLocation = point;
-    await _getCurrentLocation();
-    await getDirections();
-    markers.add(Marker(
-      markerId: const MarkerId("1"),
-      position: point,
-    ));
-
-    setState(() { });
   }
 
   @override
@@ -100,7 +44,7 @@ class _RoutingMapWidgetState extends State<RoutingMapWidget> {
     return Scaffold(
       resizeToAvoidBottomInset: false,
       body: Selector<RoutingProvider, LatLng?>(
-          selector: (p0, p1) => p1.endLocation,
+          selector: (p0, p1) => p1.destination,
           builder: (context, value, child) {
             if (value != null) {
               markers = [];
@@ -112,32 +56,47 @@ class _RoutingMapWidgetState extends State<RoutingMapWidget> {
                 ),
               ));
             }
-            return GoogleMap(
-              markers: Set<Marker>.of(markers),
-              polylines: Set<Polyline>.of(polylines.values),
-              mapType: MapType.normal,
-              zoomControlsEnabled: false,
-              myLocationButtonEnabled: false,
-              myLocationEnabled: true,
-              gestureRecognizers: Set()
-                ..add(
-                    Factory<PanGestureRecognizer>(() => PanGestureRecognizer()))
-                ..add(Factory<ScaleGestureRecognizer>(
-                    () => ScaleGestureRecognizer()))
-                ..add(
-                    Factory<TapGestureRecognizer>(() => TapGestureRecognizer()))
-                ..add(Factory<VerticalDragGestureRecognizer>(
-                    () => VerticalDragGestureRecognizer())),
-              initialCameraPosition: initialCameraPosition,
-              onMapCreated: (GoogleMapController controller) {
-                _googleMapController = controller;
-                _controller.complete(controller);
-              },
-              onTap: _handleTap,
-            );
+            return FutureBuilder(
+                // future: provider.determinePosition(),
+                builder: (context, snapshot) {
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return const LoadingWidget();
+              }
+
+              return Selector<RoutingProvider,Map<PolylineId, Polyline>>(
+                selector: (p0, p1) => p1.polylines,
+                builder:(context, value, child) {
+                  return GoogleMap(
+                    markers: Set<Marker>.of(markers),
+                    polylines: Set<Polyline>.of(value.values),
+                    mapType: MapType.normal,
+                    zoomControlsEnabled: false,
+                    myLocationButtonEnabled: false,
+                    myLocationEnabled: true,
+                    gestureRecognizers: Set()
+                      ..add(Factory<PanGestureRecognizer>(
+                          () => PanGestureRecognizer()))
+                      ..add(Factory<ScaleGestureRecognizer>(
+                          () => ScaleGestureRecognizer()))
+                      ..add(Factory<TapGestureRecognizer>(
+                          () => TapGestureRecognizer()))
+                      ..add(Factory<VerticalDragGestureRecognizer>(
+                          () => VerticalDragGestureRecognizer())),
+                    initialCameraPosition: initialCameraPosition,
+                    onMapCreated: (GoogleMapController controller) {
+                      _googleMapController = controller;
+                      _controller.complete(controller);
+                    },
+                  );
+                }
+              );
+            });
           }),
       floatingActionButton: FloatingActionButton(
-        onPressed: _getCurrentLocation,
+        onPressed: () async {
+          final response = await http.get(Uri.parse('https://jsonplaceholder.typicode.com/todos/1'));
+print(response.statusCode);
+        },
         child: Icon(Icons.location_on),
       ),
     );

@@ -39,42 +39,6 @@ class _RoutingScreenState extends State<RoutingScreen> {
                   return ButtonWidget(
                     isCircle: true,
                     onPressed: () {
-                      SharedComponents.showBottomSheet(
-                        context,
-                        height: MediaQuery.of(context).size.height,
-                        child: Padding(
-                          padding: const EdgeInsets.all(SharedValues.padding),
-                          child: Column(
-                            children: [
-                              TextFieldWidget(
-                                hintText: 'Search ...',
-                                onChanged: provider.filterItems,
-                              ),
-                              Expanded(
-                                child: Selector<RoutingProvider, List<String>>(
-                                    selector: (p0, p1) => p1.filteredList,
-                                    builder: (context, value, child) {
-                                      return ListView.builder(
-                                        itemCount: value.length,
-                                        itemBuilder: (context, index) {
-                                          final item = value[index];
-                                          return ListTile(
-                                            title: Text(item),
-                                            onTap: () {
-                                              setStateWidget(() {
-                                                title=item;
-                                                Navigator.pop(context);
-                                              });
-                                            },
-                                          );
-                                        },
-                                      );
-                                    }),
-                              ),
-                            ],
-                          ),
-                        ),
-                      );
                     },
                     height: 55,
                     color: Theme.of(context).colorScheme.background,

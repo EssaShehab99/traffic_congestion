@@ -1,36 +1,26 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:traffic_congestion/data/di/service_locator.dart';
+import 'package:traffic_congestion/data/models/route.dart';
 import 'package:traffic_congestion/data/network/data_response.dart';
 import 'package:traffic_congestion/data/repositories/routing_repository.dart';
 
-class RoutingProvider extends ChangeNotifier{
+class RoutingProvider extends ChangeNotifier {
   final _routingRepository = getIt.get<RoutingRepository>();
-  List<String> filteredList = [];
-  LatLng? endLocation;
+  final destination = const LatLng(15.341587817873876, 44.16920211343145);
+  LatLng? currentLocation;
+  List<RouteModel> routes = [];
+  Map<PolylineId, Polyline> polylines = {};
 
-  Future<void> filterItems(String searchText) async {
-    Result result= await  _routingRepository.search(searchText);
-    if(result is Success){
-      filteredList = result.value;
-      notifyListeners();
-    }
-  }
-  /// Determine the current position of the device.
-  ///
-  /// When the location services are not enabled or permissions
-  /// are denied the `Future` will return an error.
-  Future<Position> determinePosition() async {
+
+  Future<void> determinePosition() async {
     bool serviceEnabled;
     LocationPermission permission;
 
-    // Test if location services are enabled.
     serviceEnabled = await Geolocator.isLocationServiceEnabled();
     if (!serviceEnabled) {
-      // Location services are not enabled don't continue
-      // accessing the position and request users of the
-      // App to enable the location services.
       return Future.error('Location services are disabled.');
     }
 
@@ -38,31 +28,41 @@ class RoutingProvider extends ChangeNotifier{
     if (permission == LocationPermission.denied) {
       permission = await Geolocator.requestPermission();
       if (permission == LocationPermission.denied) {
-        // Permissions are denied, next time you could try
-        // requesting permissions again (this is also where
-        // Android's shouldShowRequestPermissionRationale
-        // returned true. According to Android guidelines
-        // your App should show an explanatory UI now.
         return Future.error('Location permissions are denied');
       }
     }
-
     if (permission == LocationPermission.deniedForever) {
-      // Permissions are denied forever, handle appropriately.
       return Future.error(
           'Location permissions are permanently denied, we cannot request permissions.');
     }
-
-    // When we reach here, permissions are granted and we can
-    // continue accessing the position of the device.
-    return await Geolocator.getCurrentPosition();
+    final position = await Geolocator.getCurrentPosition();
+    currentLocation = LatLng(position.latitude, position.longitude);
   }
 
-  Future<List<LatLng>> getRouteBetweenCoordinates(LatLng start, LatLng end) async{
-    Result result = await _routingRepository.getRouteBetweenCoordinates(start, end);
-    if (result is Success) {
-      return result.value;
+  Future<void> getRoutes() async {
+    if(currentLocation==null){
+      return;
     }
-    return [];
+    Result result = await _routingRepository.getRoutes(currentLocation!, destination);
+    if (result is Success) {
+      routes = result.value;
+      if(routes.isNotEmpty){
+        addPolylines();
+        notifyListeners();
+      }
+    }
+  }
+  void addPolylines(){
+    polylines={};
+    for (var route in routes) {
+      PolylineId id = PolylineId(route.hashCode.toString());
+      Polyline polyline = Polyline(
+        polylineId: id,
+        color: Colors.red,
+        points: route.route,
+        width: 3,
+      );
+      polylines[id] = polyline;
+    }
   }
 }
