@@ -11,7 +11,7 @@ import 'package:traffic_congestion/data/repositories/routing_repository.dart';
 
 class RoutingProvider extends ChangeNotifier {
   final _routingRepository = getIt.get<RoutingRepository>();
-  final destination = const LatLng(15.3423653408782, 44.22314803765806);
+  final destination = const LatLng(26.34891903376855, 43.7667923667487);
   LatLng? currentLocation;
   List<RouteModel> routes = [];
   Map<PolylineId, Polyline> polylines = {};
