@@ -8,7 +8,6 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:traffic_congestion/data/providers/routing_provider.dart';
 import 'package:traffic_congestion/views/shared/loading_widget.dart';
-import 'package:http/http.dart' as http;
 
 class RoutingMapWidget extends StatefulWidget {
   const RoutingMapWidget({Key? key}) : super(key: key);
