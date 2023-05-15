@@ -30,47 +30,9 @@ class _RoutingScreenState extends State<RoutingScreen> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        body: Stack(
-          children: [
-            const RoutingMapWidget(),
-            Padding(
-                padding: EdgeInsets.all(SharedValues.padding),
-                child: StatefulBuilder(builder: (context, setStateWidget) {
-                  return ButtonWidget(
-                    isCircle: true,
-                    onPressed: () {
-                    },
-                    height: 55,
-                    color: Theme.of(context).colorScheme.background,
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: SharedValues.padding),
-                      child: Row(
-                        children: [
-                          Expanded(
-                              child: Text(
-                            title ?? 'Search ...',
-                            style: Theme.of(context).textTheme.headlineLarge,
-                          )),
-                          IconButton(
-                              onPressed: () {},
-                              icon: Icon(
-                                Icons.search,
-                              ))
-                        ],
-                      ),
-                    ),
-                  );
-                })),
-          ],
-        ),
+        body: const RoutingMapWidget(),
         floatingActionButton: FloatingActionButton(
-          onPressed:() async {
-            final response = await http.get(Uri.parse('https://jsonplaceholder.typicode.com/todos/1'));
-            print(response.statusCode);
-
-            // Provider.of<RoutingProvider>(context,listen: false).getRoutes();
-          },
+          onPressed:() async => Provider.of<RoutingProvider>(context,listen: false).getRoutes(),
           child: Icon(Icons.location_on),
         ),
       ),

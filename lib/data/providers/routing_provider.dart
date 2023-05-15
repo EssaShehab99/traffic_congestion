@@ -1,3 +1,5 @@
+import 'dart:math' as math;
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
@@ -9,7 +11,7 @@ import 'package:traffic_congestion/data/repositories/routing_repository.dart';
 
 class RoutingProvider extends ChangeNotifier {
   final _routingRepository = getIt.get<RoutingRepository>();
-  final destination = const LatLng(15.341587817873876, 44.16920211343145);
+  final destination = const LatLng(15.3423653408782, 44.22314803765806);
   LatLng? currentLocation;
   List<RouteModel> routes = [];
   Map<PolylineId, Polyline> polylines = {};
@@ -54,11 +56,49 @@ class RoutingProvider extends ChangeNotifier {
   }
   void addPolylines(){
     polylines={};
+    // Calculate average travel time
+    int totalTravelTime = 0;
+    int routeCount = routes.length;
+    int routeModelsWithTravelTimeCount = 0;
+
+    for (var routeModel in routes) {
+      if (routeModel.travelTime != null) {
+        totalTravelTime += routeModel.travelTime!;
+        routeModelsWithTravelTimeCount++;
+      }
+    }
+
+    int averageTravelTime =
+    routeModelsWithTravelTimeCount > 0 ? totalTravelTime ~/ routeModelsWithTravelTimeCount : 0;
+
+    // Calculate max travel time difference
+    int maxTravelTimeDifference = 0;
+
+    for (var routeModel in routes) {
+      if (routeModel.travelTime != null) {
+        int difference = (routeModel.travelTime! - averageTravelTime).abs();
+        maxTravelTimeDifference = math.max(maxTravelTimeDifference, difference);
+      }
+    }
+
     for (var route in routes) {
+
+      Color color;
+      if (route.travelTime != null && maxTravelTimeDifference > 0) {
+        int difference = route.travelTime! - averageTravelTime;
+        double percentage = difference / maxTravelTimeDifference;
+        int red = (255 - (percentage * 255)).toInt().clamp(0, 255);
+        int green = (percentage * 255).toInt().clamp(0, 255);
+        color = Color.fromARGB(255, red, green, 0);
+      } else {
+        color = Colors.red;
+      }
+
+
       PolylineId id = PolylineId(route.hashCode.toString());
       Polyline polyline = Polyline(
         polylineId: id,
-        color: Colors.red,
+        color: color,
         points: route.route,
         width: 3,
       );

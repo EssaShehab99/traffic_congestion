@@ -1,0 +1,682 @@
+{
+  "geocoded_waypoints": [
+    {
+      "geocoder_status": "OK",
+      "place_id": "ChIJR2RDBlvaAxYR4PUpfOFU0xE",
+      "types": [
+        "premise"
+      ]
+    },
+    {
+      "geocoder_status": "OK",
+      "place_id": "ChIJ8WoKsQbbAxYRLFifQFcMYOA",
+      "types": [
+        "establishment",
+        "point_of_interest"
+      ]
+    }
+  ],
+  "routes": [
+    {
+      "bounds": {
+        "northeast": {
+          "lat": 15.3575707,
+          "lng": 44.2248357
+        },
+        "southwest": {
+          "lat": 15.3503616,
+          "lng": 44.2219969
+        }
+      },
+      "copyrights": "Map data ©2023",
+      "legs": [
+        {
+          "distance": {
+            "text": "1.3 km",
+            "value": 1297
+          },
+          "duration": {
+            "text": "5 mins",
+            "value": 321
+          },
+          "end_address": "تقاطع نقم المشهد أمام مطاعم نجوم التل الأخضر، صنعاء‎،، 965C+2VC, Sana'a, Yemen",
+          "end_location": {
+            "lat": 15.3575707,
+            "lng": 44.2222101
+          },
+          "start_address": "962C+5WC, Sana'a, Yemen",
+          "start_location": {
+            "lat": 15.3503616,
+            "lng": 44.2224932
+          },
+          "steps": [
+            {
+              "distance": {
+                "text": "21 m",
+                "value": 21
+              },
+              "duration": {
+                "text": "1 min",
+                "value": 5
+              },
+              "end_location": {
+                "lat": 15.3504211,
+                "lng": 44.2226824
+              },
+              "html_instructions": "Head <b>east</b>",
+              "polyline": {
+                "points": "wbu|Aqe|lGKe@"
+              },
+              "start_location": {
+                "lat": 15.3503616,
+                "lng": 44.2224932
+              },
+              "travel_mode": "DRIVING"
+            },
+            {
+              "distance": {
+                "text": "0.2 km",
+                "value": 242
+              },
+              "duration": {
+                "text": "1 min",
+                "value": 55
+              },
+              "end_location": {
+                "lat": 15.3524915,
+                "lng": 44.2219969
+              },
+              "html_instructions": "Turn <b>left</b> at the 1st cross street",
+              "maneuver": "turn-left",
+              "polyline": {
+                "points": "ccu|Awf|lGu@Hq@Pa@JkAXiAXcBb@YF"
+              },
+              "start_location": {
+                "lat": 15.3504211,
+                "lng": 44.2226824
+              },
+              "travel_mode": "DRIVING"
+            },
+            {
+              "distance": {
+                "text": "0.3 km",
+                "value": 281
+              },
+              "duration": {
+                "text": "1 min",
+                "value": 44
+              },
+              "end_location": {
+                "lat": 15.3546162,
+                "lng": 44.2232752
+              },
+              "html_instructions": "Turn <b>right</b> onto <b>Musayk St</b>",
+              "maneuver": "turn-right",
+              "polyline": {
+                "points": "apu|Aob|lGA?g@s@}@o@{@o@s@c@e@[o@Wc@Gs@Gc@C"
+              },
+              "start_location": {
+                "lat": 15.3524915,
+                "lng": 44.2219969
+              },
+              "travel_mode": "DRIVING"
+            },
+            {
+              "distance": {
+                "text": "65 m",
+                "value": 65
+              },
+              "duration": {
+                "text": "1 min",
+                "value": 13
+              },
+              "end_location": {
+                "lat": 15.3549798,
+                "lng": 44.2237507
+              },
+              "html_instructions": "Turn <b>right</b>",
+              "maneuver": "turn-right",
+              "polyline": {
+                "points": "k}u|Aoj|lGa@g@e@u@"
+              },
+              "start_location": {
+                "lat": 15.3546162,
+                "lng": 44.2232752
+              },
+              "travel_mode": "DRIVING"
+            },
+            {
+              "distance": {
+                "text": "92 m",
+                "value": 92
+              },
+              "duration": {
+                "text": "1 min",
+                "value": 26
+              },
+              "end_location": {
+                "lat": 15.354416,
+                "lng": 44.2243794
+              },
+              "html_instructions": "Turn <b>right</b>",
+              "maneuver": "turn-right",
+              "polyline": {
+                "points": "s_v|Amm|lGhAuAHKZ["
+              },
+              "start_location": {
+                "lat": 15.3549798,
+                "lng": 44.2237507
+              },
+              "travel_mode": "DRIVING"
+            },
+            {
+              "distance": {
+                "text": "0.3 km",
+                "value": 309
+              },
+              "duration": {
+                "text": "2 mins",
+                "value": 94
+              },
+              "end_location": {
+                "lat": 15.3570919,
+                "lng": 44.2247953
+              },
+              "html_instructions": "Turn <b>left</b>",
+              "maneuver": "turn-left",
+              "polyline": {
+                "points": "c|u|Akq|lG]]u@MICe@MqA]C@i@@O?mA@wCB[A"
+              },
+              "start_location": {
+                "lat": 15.354416,
+                "lng": 44.2243794
+              },
+              "travel_mode": "DRIVING"
+            },
+            {
+              "distance": {
+                "text": "0.3 km",
+                "value": 287
+              },
+              "duration": {
+                "text": "1 min",
+                "value": 84
+              },
+              "end_location": {
+                "lat": 15.3575707,
+                "lng": 44.2222101
+              },
+              "html_instructions": "Turn <b>left</b>",
+              "maneuver": "turn-left",
+              "polyline": {
+                "points": "ylv|A_t|lG?`DA`@MtBKf@Qd@ELWz@K`@GP"
+              },
+              "start_location": {
+                "lat": 15.3570919,
+                "lng": 44.2247953
+              },
+              "travel_mode": "DRIVING"
+            }
+          ],
+          "traffic_speed_entry": [],
+          "via_waypoint": []
+        }
+      ],
+      "overview_polyline": {
+        "points": "wbu|Aqe|lGKe@u@HsA\\sG~Ai@s@yB_ByA_Ao@Wc@GwAKa@g@e@u@rAaBZ[]]_AQwBk@kCDsD@AbEMtBKf@Wr@k@nB"
+      },
+      "summary": "Musayk St",
+      "warnings": [],
+      "waypoint_order": []
+    },
+    {
+      "bounds": {
+        "northeast": {
+          "lat": 15.3575707,
+          "lng": 44.2248117
+        },
+        "southwest": {
+          "lat": 15.3503616,
+          "lng": 44.2219969
+        }
+      },
+      "copyrights": "Map data ©2023",
+      "legs": [
+        {
+          "distance": {
+            "text": "1.5 km",
+            "value": 1467
+          },
+          "duration": {
+            "text": "6 mins",
+            "value": 342
+          },
+          "end_address": "تقاطع نقم المشهد أمام مطاعم نجوم التل الأخضر، صنعاء‎،، 965C+2VC, Sana'a, Yemen",
+          "end_location": {
+            "lat": 15.3575707,
+            "lng": 44.2222101
+          },
+          "start_address": "962C+5WC, Sana'a, Yemen",
+          "start_location": {
+            "lat": 15.3503616,
+            "lng": 44.2224932
+          },
+          "steps": [
+            {
+              "distance": {
+                "text": "21 m",
+                "value": 21
+              },
+              "duration": {
+                "text": "1 min",
+                "value": 5
+              },
+              "end_location": {
+                "lat": 15.3504211,
+                "lng": 44.2226824
+              },
+              "html_instructions": "Head <b>east</b>",
+              "polyline": {
+                "points": "wbu|Aqe|lGKe@"
+              },
+              "start_location": {
+                "lat": 15.3503616,
+                "lng": 44.2224932
+              },
+              "travel_mode": "DRIVING"
+            },
+            {
+              "distance": {
+                "text": "0.2 km",
+                "value": 242
+              },
+              "duration": {
+                "text": "1 min",
+                "value": 55
+              },
+              "end_location": {
+                "lat": 15.3524915,
+                "lng": 44.2219969
+              },
+              "html_instructions": "Turn <b>left</b> at the 1st cross street",
+              "maneuver": "turn-left",
+              "polyline": {
+                "points": "ccu|Awf|lGu@Hq@Pa@JkAXiAXcBb@YF"
+              },
+              "start_location": {
+                "lat": 15.3504211,
+                "lng": 44.2226824
+              },
+              "travel_mode": "DRIVING"
+            },
+            {
+              "distance": {
+                "text": "0.5 km",
+                "value": 488
+              },
+              "duration": {
+                "text": "1 min",
+                "value": 71
+              },
+              "end_location": {
+                "lat": 15.3563179,
+                "lng": 44.2225662
+              },
+              "html_instructions": "Turn <b>right</b> onto <b>Musayk St</b>",
+              "maneuver": "turn-right",
+              "polyline": {
+                "points": "apu|Aob|lGA?g@s@}@o@{@o@s@c@e@[o@Wc@Gs@Gc@CY@WDu@T{@TEB_Cp@WTQL"
+              },
+              "start_location": {
+                "lat": 15.3524915,
+                "lng": 44.2219969
+              },
+              "travel_mode": "DRIVING"
+            },
+            {
+              "distance": {
+                "text": "0.1 km",
+                "value": 106
+              },
+              "duration": {
+                "text": "1 min",
+                "value": 22
+              },
+              "end_location": {
+                "lat": 15.3556158,
+                "lng": 44.2232213
+              },
+              "html_instructions": "Sharp <b>right</b>",
+              "maneuver": "turn-sharp-right",
+              "polyline": {
+                "points": "_hv|Aaf|lGv@eAXQx@i@"
+              },
+              "start_location": {
+                "lat": 15.3563179,
+                "lng": 44.2225662
+              },
+              "travel_mode": "DRIVING"
+            },
+            {
+              "distance": {
+                "text": "0.1 km",
+                "value": 129
+              },
+              "duration": {
+                "text": "1 min",
+                "value": 34
+              },
+              "end_location": {
+                "lat": 15.3564878,
+                "lng": 44.223985
+              },
+              "html_instructions": "Turn <b>left</b>",
+              "maneuver": "turn-left",
+              "polyline": {
+                "points": "scv|Acj|lG_@a@c@s@EEi@_@y@["
+              },
+              "start_location": {
+                "lat": 15.3556158,
+                "lng": 44.2232213
+              },
+              "travel_mode": "DRIVING"
+            },
+            {
+              "distance": {
+                "text": "94 m",
+                "value": 94
+              },
+              "duration": {
+                "text": "1 min",
+                "value": 25
+              },
+              "end_location": {
+                "lat": 15.3561936,
+                "lng": 44.2248117
+              },
+              "html_instructions": "Turn <b>right</b>",
+              "maneuver": "turn-right",
+              "polyline": {
+                "points": "aiv|A{n|lGp@mCHW"
+              },
+              "start_location": {
+                "lat": 15.3564878,
+                "lng": 44.223985
+              },
+              "travel_mode": "DRIVING"
+            },
+            {
+              "distance": {
+                "text": "0.1 km",
+                "value": 100
+              },
+              "duration": {
+                "text": "1 min",
+                "value": 46
+              },
+              "end_location": {
+                "lat": 15.3570919,
+                "lng": 44.2247953
+              },
+              "html_instructions": "Turn <b>left</b>",
+              "maneuver": "turn-left",
+              "polyline": {
+                "points": "egv|Aat|lGwCB[A"
+              },
+              "start_location": {
+                "lat": 15.3561936,
+                "lng": 44.2248117
+              },
+              "travel_mode": "DRIVING"
+            },
+            {
+              "distance": {
+                "text": "0.3 km",
+                "value": 287
+              },
+              "duration": {
+                "text": "1 min",
+                "value": 84
+              },
+              "end_location": {
+                "lat": 15.3575707,
+                "lng": 44.2222101
+              },
+              "html_instructions": "Turn <b>left</b>",
+              "maneuver": "turn-left",
+              "polyline": {
+                "points": "ylv|A_t|lG?`DA`@MtBKf@Qd@ELWz@K`@GP"
+              },
+              "start_location": {
+                "lat": 15.3570919,
+                "lng": 44.2247953
+              },
+              "travel_mode": "DRIVING"
+            }
+          ],
+          "traffic_speed_entry": [],
+          "via_waypoint": []
+        }
+      ],
+      "overview_polyline": {
+        "points": "wbu|Aqe|lGKe@u@HsA\\sG~Ai@s@yB_ByA_Ao@Wc@GwAKq@FwF`Bi@b@v@eAXQx@i@_@a@i@y@i@_@y@[z@eDsD@AbEMtBKf@Wr@k@nB"
+      },
+      "summary": "Musayk St",
+      "warnings": [],
+      "waypoint_order": []
+    },
+    {
+      "bounds": {
+        "northeast": {
+          "lat": 15.3592097,
+          "lng": 44.2232752
+        },
+        "southwest": {
+          "lat": 15.3503616,
+          "lng": 44.2207549
+        }
+      },
+      "copyrights": "Map data ©2023",
+      "legs": [
+        {
+          "distance": {
+            "text": "1.5 km",
+            "value": 1484
+          },
+          "duration": {
+            "text": "6 mins",
+            "value": 331
+          },
+          "end_address": "تقاطع نقم المشهد أمام مطاعم نجوم التل الأخضر، صنعاء‎،، 965C+2VC, Sana'a, Yemen",
+          "end_location": {
+            "lat": 15.3575707,
+            "lng": 44.2222101
+          },
+          "start_address": "962C+5WC, Sana'a, Yemen",
+          "start_location": {
+            "lat": 15.3503616,
+            "lng": 44.2224932
+          },
+          "steps": [
+            {
+              "distance": {
+                "text": "21 m",
+                "value": 21
+              },
+              "duration": {
+                "text": "1 min",
+                "value": 5
+              },
+              "end_location": {
+                "lat": 15.3504211,
+                "lng": 44.2226824
+              },
+              "html_instructions": "Head <b>east</b>",
+              "polyline": {
+                "points": "wbu|Aqe|lGKe@"
+              },
+              "start_location": {
+                "lat": 15.3503616,
+                "lng": 44.2224932
+              },
+              "travel_mode": "DRIVING"
+            },
+            {
+              "distance": {
+                "text": "0.2 km",
+                "value": 242
+              },
+              "duration": {
+                "text": "1 min",
+                "value": 55
+              },
+              "end_location": {
+                "lat": 15.3524915,
+                "lng": 44.2219969
+              },
+              "html_instructions": "Turn <b>left</b> at the 1st cross street",
+              "maneuver": "turn-left",
+              "polyline": {
+                "points": "ccu|Awf|lGu@Hq@Pa@JkAXiAXcBb@YF"
+              },
+              "start_location": {
+                "lat": 15.3504211,
+                "lng": 44.2226824
+              },
+              "travel_mode": "DRIVING"
+            },
+            {
+              "distance": {
+                "text": "0.9 km",
+                "value": 851
+              },
+              "duration": {
+                "text": "3 mins",
+                "value": 159
+              },
+              "end_location": {
+                "lat": 15.3590576,
+                "lng": 44.2207549
+              },
+              "html_instructions": "Turn <b>right</b> onto <b>Musayk St</b>",
+              "maneuver": "turn-right",
+              "polyline": {
+                "points": "apu|Aob|lGA?g@s@}@o@{@o@s@c@e@[o@Wc@Gs@Gc@CY@WDu@T{@TEB_Cp@WTQLc@^_@X[VUNc@XiAt@_@TURSJq@X[NcBt@cAb@"
+              },
+              "start_location": {
+                "lat": 15.3524915,
+                "lng": 44.2219969
+              },
+              "travel_mode": "DRIVING"
+            },
+            {
+              "distance": {
+                "text": "60 m",
+                "value": 60
+              },
+              "duration": {
+                "text": "1 min",
+                "value": 12
+              },
+              "end_location": {
+                "lat": 15.3592097,
+                "lng": 44.2212937
+              },
+              "html_instructions": "Turn <b>right</b>",
+              "maneuver": "turn-right",
+              "polyline": {
+                "points": "cyv|Auz{lG]kB"
+              },
+              "start_location": {
+                "lat": 15.3590576,
+                "lng": 44.2207549
+              },
+              "travel_mode": "DRIVING"
+            },
+            {
+              "distance": {
+                "text": "0.1 km",
+                "value": 121
+              },
+              "duration": {
+                "text": "1 min",
+                "value": 30
+              },
+              "end_location": {
+                "lat": 15.3582127,
+                "lng": 44.2217387
+              },
+              "html_instructions": "Turn <b>right</b>",
+              "maneuver": "turn-right",
+              "polyline": {
+                "points": "azv|Aa~{lGDAr@WBA~@[t@YRG"
+              },
+              "start_location": {
+                "lat": 15.3592097,
+                "lng": 44.2212937
+              },
+              "travel_mode": "DRIVING"
+            },
+            {
+              "distance": {
+                "text": "82 m",
+                "value": 82
+              },
+              "duration": {
+                "text": "1 min",
+                "value": 26
+              },
+              "end_location": {
+                "lat": 15.3583738,
+                "lng": 44.2224808
+              },
+              "html_instructions": "Turn <b>left</b>",
+              "maneuver": "turn-left",
+              "polyline": {
+                "points": "ysv|A{`|lGSy@C[Ee@AW"
+              },
+              "start_location": {
+                "lat": 15.3582127,
+                "lng": 44.2217387
+              },
+              "travel_mode": "DRIVING"
+            },
+            {
+              "distance": {
+                "text": "0.1 km",
+                "value": 107
+              },
+              "duration": {
+                "text": "1 min",
+                "value": 44
+              },
+              "end_location": {
+                "lat": 15.3575707,
+                "lng": 44.2222101
+              },
+              "html_instructions": "Turn <b>right</b>",
+              "maneuver": "turn-right",
+              "polyline": {
+                "points": "ytv|Aoe|lGn@@p@Jr@JPHGP"
+              },
+              "start_location": {
+                "lat": 15.3583738,
+                "lng": 44.2224808
+              },
+              "travel_mode": "DRIVING"
+            }
+          ],
+          "traffic_speed_entry": [],
+          "via_waypoint": []
+        }
+      ],
+      "overview_polyline": {
+        "points": "wbu|Aqe|lGKe@u@HsA\\sG~Ai@s@yB_ByA_Ao@Wc@GwAKq@FwF`BmB|A_DvBu@h@eAd@_CdAcAb@]kBx@YbA]hAa@Sy@C[G}@n@@p@Jr@JPHGP"
+      },
+      "summary": "Musayk St",
+      "warnings": [],
+      "waypoint_order": []
+    }
+  ],
+  "status": "OK"
+}
