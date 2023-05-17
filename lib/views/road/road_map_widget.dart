@@ -68,6 +68,7 @@ class _RoadMapWidgetState extends State<RoadMapWidget> {
           child: Scaffold(
       resizeToAvoidBottomInset: false,
       body: GoogleMap(
+        
         markers: Set<Marker>.of(markers),
         mapType: MapType.normal,
         zoomControlsEnabled: true,
