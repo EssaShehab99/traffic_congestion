@@ -1,25 +1,29 @@
+import 'dart:ui';
+
+import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
 import 'package:traffic_congestion/data/models/route.dart';
-import 'package:flutter/services.dart' show rootBundle;
+import 'dart:math' as math;
 
 class RoutingApi {
-
-  Future<List<RouteModel>> getRoutes(double startLatitude, double startLongitude,
-      double endLatitude, double endLongitude) async {
-    try{
-      final alternativeRoutes=await _getMultipleRoutes(startLatitude, startLongitude, endLatitude, endLongitude);
+  Future<List<RouteModel>> getRoutes(double startLatitude,
+      double startLongitude, double endLatitude, double endLongitude) async {
+    try {
+      final alternativeRoutes = await _getMultipleRoutes(
+          startLatitude, startLongitude, endLatitude, endLongitude);
+      alternativeRoutes.sort((a, b) => a.travelTime.compareTo(b.travelTime));
       return alternativeRoutes;
-    }catch(e){
+    } catch (e) {
       rethrow;
     }
   }
 
-  Future<List<RouteModel>> _getMultipleRoutes(double startLatitude, double startLongitude,
-      double endLatitude, double endLongitude) async {
+  Future<List<RouteModel>> _getMultipleRoutes(double startLatitude,
+      double startLongitude, double endLatitude, double endLongitude) async {
     try {
       // Define the origin and destination coordinates
       String origin = "$startLatitude,$startLongitude"; // San Francisco
@@ -30,26 +34,35 @@ class RoutingApi {
       Uri url = Uri.parse(
           "https://maps.googleapis.com/maps/api/directions/json?origin=$origin&destination=$destination&key=$apiKey&alternatives=true");
 
-
       http.Response response = await http.get(url);
 
       // Parse the response
       if (response.statusCode == 200) {
         Map<String, dynamic> data = jsonDecode(response.body);
-        String dddd=jsonEncode(data);
         List<dynamic> routes = data["routes"];
         List<RouteModel> routesModels = [];
         // Process each route
         for (var route in routes) {
           String polylinePoints =
               route["overview_polyline"]["points"]; // Encoded polyline points
-          int travelTime=route["legs"][0]["duration"]['value'];
+          int travelTime = route["legs"][0]["duration"]['value'];
+          String distance = route["legs"][0]["distance"]['text'];
           // Decode polyline points to coordinates
           List<LatLng> routeCoordinates = _decodePolyline(polylinePoints);
-          routesModels.add(RouteModel(route: routeCoordinates,travelTime: travelTime));
+          routesModels.add(RouteModel(
+              id: routes.indexOf(route) + 1,
+              route: routeCoordinates,
+              distance: distance,
+              travelTime: travelTime,
+              color: Colors.red));
           // Display the coordinates or perform any desired operations
           // print("Route coordinates: $routeCoordinates");
         }
+        changeColor(routesModels);
+        routesModels
+            .reduce((value, element) =>
+                value.travelTime < element.travelTime ? value : element)
+            .isSelected = true;
         return routesModels;
       } else {
         throw Exception('An Error');
@@ -93,5 +106,25 @@ class RoutingApi {
     return poly;
   }
 
+  void changeColor(List<RouteModel> routes) {
+    // Find the minimum and maximum travel times
+    int minTravelTime = routes.map((route) => route.travelTime).reduce((a, b) => a < b ? a : b);
+    int maxTravelTime = routes.map((route) => route.travelTime).reduce((a, b) => a > b ? a : b);
 
+    // Calculate the color gradient range
+    final Color green = Colors.green;
+    final Color red = Colors.red;
+
+    for (var route in routes) {
+      // Calculate the percentage value based on the travel time within the range
+      double percentage = (route.travelTime - minTravelTime) / (maxTravelTime - minTravelTime);
+
+      // Interpolate the color between green and red based on the percentage value
+      int redComponent = ((1 - percentage) * green.red + percentage * red.red).toInt();
+      int greenComponent = ((1 - percentage) * green.green + percentage * red.green).toInt();
+      int blueComponent = ((1 - percentage) * green.blue + percentage * red.blue).toInt();
+
+      route.color = Color.fromARGB(255, redComponent, greenComponent, blueComponent);
+    }
+  }
 }

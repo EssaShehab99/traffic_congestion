@@ -27,7 +27,7 @@ class _RoutingMapWidgetState extends State<RoutingMapWidget> {
   void initState() {
     provider = Provider.of<RoutingProvider>(context, listen: false);
     _controller = Completer();
-    initialCameraPosition =  CameraPosition(
+    initialCameraPosition = CameraPosition(
       target: provider.destination,
       zoom: 12.5,
     );
@@ -53,39 +53,30 @@ class _RoutingMapWidgetState extends State<RoutingMapWidget> {
               ),
             ));
           }
-          return FutureBuilder(
-            future: provider.determinePosition(),
-              builder: (context, snapshot) {
-                if (snapshot.connectionState == ConnectionState.waiting) {
-                  return const LoadingWidget();
-                }
-
-                return Selector<RoutingProvider,Map<PolylineId, Polyline>>(
-                    selector: (p0, p1) => p1.polylines,
-                    builder:(context, value, child) {
-                      return GoogleMap(
-                        markers: Set<Marker>.of(markers),
-                        polylines: Set<Polyline>.of(value.values),
-                        mapType: MapType.normal,
-                        zoomControlsEnabled: false,
-                        myLocationButtonEnabled: false,
-                        myLocationEnabled: true,
-                        gestureRecognizers: Set()
-                          ..add(Factory<PanGestureRecognizer>(
-                                  () => PanGestureRecognizer()))
-                          ..add(Factory<ScaleGestureRecognizer>(
-                                  () => ScaleGestureRecognizer()))
-                          ..add(Factory<TapGestureRecognizer>(
-                                  () => TapGestureRecognizer()))
-                          ..add(Factory<VerticalDragGestureRecognizer>(
-                                  () => VerticalDragGestureRecognizer())),
-                        initialCameraPosition: initialCameraPosition,
-                        onMapCreated: (GoogleMapController controller) {
-                          _googleMapController = controller;
-                          _controller.complete(controller);
-                        },
-                      );
-                    }
+          return Selector<RoutingProvider, Map<PolylineId, Polyline>>(
+              selector: (p0, p1) => p1.polylines,
+              builder: (context, value, child) {
+                return GoogleMap(
+                  markers: Set<Marker>.of(markers),
+                  polylines: Set<Polyline>.of(value.values),
+                  mapType: MapType.normal,
+                  zoomControlsEnabled: false,
+                  myLocationButtonEnabled: false,
+                  myLocationEnabled: true,
+                  gestureRecognizers: Set()
+                    ..add(Factory<PanGestureRecognizer>(
+                            () => PanGestureRecognizer()))
+                    ..add(Factory<ScaleGestureRecognizer>(
+                            () => ScaleGestureRecognizer()))
+                    ..add(Factory<TapGestureRecognizer>(
+                            () => TapGestureRecognizer()))
+                    ..add(Factory<VerticalDragGestureRecognizer>(
+                            () => VerticalDragGestureRecognizer())),
+                  initialCameraPosition: initialCameraPosition,
+                  onMapCreated: (GoogleMapController controller) {
+                    _googleMapController = controller;
+                    _controller.complete(controller);
+                  },
                 );
               });
         });

@@ -4,22 +4,23 @@ import 'package:flutter/material.dart';
 class TextFieldWidget extends StatelessWidget {
   const TextFieldWidget(
       {Key? key,
-         this.controller,
-        this.hintText,
-        this.validator,
-        this.keyboardType,
-        this.onChanged,
-        this.focusNode,
-        this.readOnly,
-        this.textAlign,
-        this.onTap,
-        this.obscureText,
-        this.textDirection,
-        this.prefixIcon,
-        this.suffixIcon,
-        this.fillColor,
-        this.textInputAction,
-        this.maxLines, this.contentPadding})
+      this.controller,
+      this.hintText,
+      this.validator,
+      this.keyboardType,
+      this.onChanged,
+      this.focusNode,
+      this.readOnly,
+      this.textAlign,
+      this.onTap,
+      this.obscureText,
+      this.textDirection,
+      this.prefixIcon,
+      this.suffixIcon,
+      this.fillColor,
+      this.textInputAction,
+      this.maxLines,
+      this.contentPadding})
       : super(key: key);
   final TextEditingController? controller;
   final String? hintText;
@@ -57,10 +58,12 @@ class TextFieldWidget extends StatelessWidget {
       textAlign: textAlign ?? TextAlign.start,
       style: Theme.of(context).textTheme.subtitle1,
       decoration: InputDecoration(
-        hintText: hintText,
+          hintText: hintText,
           fillColor: fillColor,
-          contentPadding:contentPadding??
-          Theme.of(context).inputDecorationTheme.contentPadding,prefixIcon: prefixIcon,suffixIcon: suffixIcon),
+          contentPadding: contentPadding ??
+              Theme.of(context).inputDecorationTheme.contentPadding,
+          prefixIcon: prefixIcon,
+          suffixIcon: suffixIcon),
     );
   }
 }

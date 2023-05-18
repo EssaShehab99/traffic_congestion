@@ -2,6 +2,8 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:provider/provider.dart';
+import 'package:traffic_congestion/data/providers/auth_provider.dart';
 import 'package:traffic_congestion/views/shared/assets_variables.dart';
 import 'package:traffic_congestion/views/shared/shared_values.dart';
 
@@ -63,41 +65,56 @@ class SharedComponents {
 
   static Widget appBar(String title,
       {bool? withBackBtn, bool? withUserOptions}) {
-    List<String> listItem = ["Sign out"];
     return Builder(
         builder: (context) => Container(
               width: double.infinity,
               height: 150,
               decoration: BoxDecoration(
-                color: Theme.of(context).primaryColor,
+                color: Theme.of(context).colorScheme.onPrimary,
                 borderRadius: const BorderRadius.vertical(
                     bottom: Radius.circular(SharedValues.borderRadius)),
+                boxShadow: [
+                  BoxShadow(color: Colors.grey.withOpacity(0.8),spreadRadius: 1.5,blurRadius: 5)
+                ]
               ),
               child: Align(
                 alignment: Alignment.bottomCenter,
                 child: Padding(
-                  padding: const EdgeInsets.fromLTRB(
-                      SharedValues.padding * 2,
-                      0,
-                      SharedValues.padding * 2,
-                      SharedValues.padding),
+                  padding: const EdgeInsets.fromLTRB(SharedValues.padding * 2,
+                      0, SharedValues.padding * 2, SharedValues.padding),
                   child: Row(
                     children: [
                       Expanded(
                         child: Align(
                           alignment: AlignmentDirectional.centerStart,
-                          child: Text(
-                            title,
-                            style: Theme.of(context).textTheme.headline2?.copyWith(fontSize: 25),
+                          child: Row(
+                            children: [
+                              SvgPicture.asset(
+                                AssetsVariable.user,
+                                alignment: AlignmentDirectional.centerEnd,
+                                width: 30,
+                                height: 30,
+                              ),
+                              const SizedBox(width: SharedValues.padding),
+                              Text(
+                                Provider.of<AuthProvider>(context,
+                                        listen: false)
+                                    .user!
+                                    .name,
+                                style: Theme.of(context).textTheme.headline2,
+                              )
+                            ],
                           ),
                         ),
                       ),
                       Expanded(
                         child: Align(
                           alignment: AlignmentDirectional.centerEnd,
-                          child: SvgPicture.asset(
+                          child: Image.asset(
                             AssetsVariable.logo,
                             alignment: AlignmentDirectional.centerEnd,
+                            width: 100,
+                            height: 100,
                           ),
                         ),
                       ),
@@ -126,7 +143,7 @@ class SharedComponents {
         child: Container(
           margin: EdgeInsets.only(top: mediaQuery.padding.top),
           padding:
-          EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
+              EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
           height: (mediaQuery.orientation == Orientation.portrait)
               ? height ?? (mediaQuery.size.height * 0.75)
               : mediaQuery.size.height,
@@ -146,7 +163,7 @@ class SharedComponents {
                   decoration: BoxDecoration(
                       color: Theme.of(context).dividerColor,
                       borderRadius:
-                      BorderRadius.circular(SharedValues.borderRadius)),
+                          BorderRadius.circular(SharedValues.borderRadius)),
                 ),
               ),
               Expanded(child: child ?? const SizedBox.shrink())
@@ -156,4 +173,5 @@ class SharedComponents {
       ),
     );
   }
+
 }

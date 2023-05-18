@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:provider/provider.dart';
+import 'package:traffic_congestion/data/providers/routing_provider.dart';
 import 'package:traffic_congestion/views/paeking/parking_screen.dart';
 import 'package:traffic_congestion/views/road/roading_screen.dart';
 import 'package:traffic_congestion/views/routing/routing_screen.dart';
 import 'package:traffic_congestion/views/shared/assets_variables.dart';
 import 'package:traffic_congestion/views/shared/button_widget.dart';
+import 'package:traffic_congestion/views/shared/loading_widget.dart';
 import 'package:traffic_congestion/views/shared/shared_components.dart';
 import 'package:traffic_congestion/views/shared/shared_values.dart';
 
@@ -20,36 +23,52 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return SafeArea(
         child: Scaffold(
+          backgroundColor: Theme.of(context).colorScheme.background,
       body: Column(
         children: [
           SharedComponents.appBar('Home'),
           Expanded(
-              child: ListView(
-            children: [
-              _buildButtonWidget(
-                image: AssetsVariable.routing,
-                text: 'Routing',
-                onPressed: () {
-                  Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => const RoutingScreen()));
-                },
-              ),
-              _buildButtonWidget(
-                image: AssetsVariable.parking,
-                text: 'Parking',
-                onPressed: () {
-                  Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => const ParkingScreen()));
-                },
-              ),
-              _buildButtonWidget(
-                  image: AssetsVariable.road, text: 'Show Road Status',onPressed: () {
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => const RoadScreen()));
-
-              },),
-            ],
-          ))
+              child: FutureBuilder(
+                  future: Provider.of<RoutingProvider>(context, listen: false).determinePosition(),
+                  builder: (context, snapshot) {
+                    if (snapshot.connectionState == ConnectionState.waiting) {
+                      return const LoadingWidget();
+                    } else if (snapshot.hasError) {
+                      return Center(child: Text('Error: ${snapshot.error}'));
+                    }
+                    return ListView(
+                      children: [
+                        _buildButtonWidget(
+                          image: AssetsVariable.routing,
+                          text: 'Routing',
+                          onPressed: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) =>
+                                        const RoutingScreen()));
+                          },
+                        ),
+                        _buildButtonWidget(
+                          image: AssetsVariable.parking,
+                          text: 'Parking',
+                          onPressed: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) =>
+                                        const ParkingScreen()));
+                          },
+                        ),
+                        // _buildButtonWidget(
+                        //     image: AssetsVariable.road, text: 'Show Road Status',onPressed: () {
+                        //   Navigator.push(context,
+                        //       MaterialPageRoute(builder: (context) => const RoadScreen()));
+                        //
+                        // },),
+                      ],
+                    );
+                  }))
         ],
       ),
     ));
@@ -67,7 +86,7 @@ class _HomeScreenState extends State<HomeScreen> {
           child: ButtonWidget(
             onPressed: onPressed,
             elevation: 0,
-            color: Theme.of(context).colorScheme.onPrimary,
+            color: Theme.of(context).colorScheme.background,
             child: Padding(
               padding: const EdgeInsets.all(SharedValues.padding),
               child: SizedBox(
