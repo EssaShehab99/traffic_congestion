@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
 import 'package:traffic_congestion/data/providers/routing_provider.dart';
+import 'package:traffic_congestion/data/utils/utils.dart';
 import 'package:traffic_congestion/views/paeking/parking_screen.dart';
 import 'package:traffic_congestion/views/road/roading_screen.dart';
 import 'package:traffic_congestion/views/routing/routing_screen.dart';
@@ -19,6 +20,12 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  @override
+  void initState() {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+    });
+    super.initState();
+  }
   @override
   Widget build(BuildContext context) {
     return SafeArea(

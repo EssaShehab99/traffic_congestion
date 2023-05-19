@@ -1,22 +1,32 @@
-import 'dart:math' as math;
-import 'dart:math';
 import 'package:flutter/material.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:traffic_congestion/data/di/service_locator.dart';
 import 'package:traffic_congestion/data/models/route.dart';
 import 'package:traffic_congestion/data/network/data_response.dart';
 import 'package:traffic_congestion/data/repositories/routing_repository.dart';
+import 'package:timezone/timezone.dart';
 
 class RoutingProvider extends ChangeNotifier {
   final _routingRepository = getIt.get<RoutingRepository>();
-  final destination = const LatLng(15.334758650591516, 44.19856785305828);
+  final destination = const LatLng(26.34893290593626, 43.76675132748825);
   LatLng? currentLocation;
   List<RouteModel> routes = [];
   Map<PolylineId, Polyline> polylines = {};
   bool isConfirmLocation = false;
   String? arriveAt;
   TimeOfDay? timeOfDay;
+  late FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin;
+  initial(){
+    flutterLocalNotificationsPlugin =
+        FlutterLocalNotificationsPlugin();
+    flutterLocalNotificationsPlugin.initialize(
+        InitializationSettings(
+            android:
+            AndroidInitializationSettings('@mipmap/launcher_icon')));
+
+  }
   Future<void> determinePosition() async {
     if (currentLocation != null) {
       return;
@@ -49,7 +59,7 @@ class RoutingProvider extends ChangeNotifier {
       return;
     }
     Result result =
-        await _routingRepository.getRoutes(currentLocation!, destination);
+        await _routingRepository.getRoutes(LatLng(26.368251468187086, 43.7940939240509), destination);
     if (result is Success) {
       routes = result.value;
       if (routes.isNotEmpty) {
@@ -94,6 +104,7 @@ class RoutingProvider extends ChangeNotifier {
 
   void setArriveTime(TimeOfDay? timeOfDay, BuildContext context) {
     if(timeOfDay==null) return;
+    scheduleNotification();
     this.timeOfDay=timeOfDay;
     final now = TimeOfDay.now();
     final isAfterNow = timeOfDay.hour > now.hour ||
@@ -114,6 +125,29 @@ class RoutingProvider extends ChangeNotifier {
       arriveAt="You must arrive before ${timeOfDay.format(context)}";
     }
     notifyListeners();
+  }
+  Future<void> scheduleNotification() async {
+    const AndroidNotificationDetails androidPlatformChannelSpecifics =
+    AndroidNotificationDetails(
+      'channel_id',
+      'channel_name',
+      importance: Importance.max,
+      priority: Priority.high,
+      ticker: 'ticker',
+    );
+
+    const NotificationDetails platformChannelSpecifics =
+    NotificationDetails(android: androidPlatformChannelSpecifics);
+    await flutterLocalNotificationsPlugin.zonedSchedule(
+      0, // Unique notification id
+      'Title', // Notification title
+      'Body', // Notification body
+        TZDateTime.from(DateTime.now().add( Duration(seconds: 10)), getLocation('America/New_York')), // Date and time to schedule the notification
+      platformChannelSpecifics,
+      uiLocalNotificationDateInterpretation:
+      UILocalNotificationDateInterpretation.absoluteTime,
+      androidAllowWhileIdle: true,
+    );
   }
 
 
