@@ -10,7 +10,7 @@ import 'package:traffic_congestion/data/repositories/routing_repository.dart';
 
 class RoutingProvider extends ChangeNotifier {
   final _routingRepository = getIt.get<RoutingRepository>();
-  final destination = const LatLng(15.334758650591516, 44.19856785305828);
+  final destination = const LatLng(26.34887856490672, 43.7667912368093);
   LatLng? currentLocation;
   List<RouteModel> routes = [];
   Map<PolylineId, Polyline> polylines = {};
@@ -49,7 +49,7 @@ class RoutingProvider extends ChangeNotifier {
       return;
     }
     Result result =
-        await _routingRepository.getRoutes(currentLocation!, destination);
+        await _routingRepository.getRoutes(LatLng(26.318027786127832, 43.806032865990574)/*currentLocation!*/, destination);
     if (result is Success) {
       routes = result.value;
       if (routes.isNotEmpty) {

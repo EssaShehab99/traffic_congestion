@@ -120,9 +120,9 @@ class RoutingApi {
       double percentage = (route.travelTime - minTravelTime) / (maxTravelTime - minTravelTime);
 
       // Interpolate the color between green and red based on the percentage value
-      int redComponent = ((1 - percentage) * green.red + percentage * red.red).toInt();
-      int greenComponent = ((1 - percentage) * green.green + percentage * red.green).toInt();
-      int blueComponent = ((1 - percentage) * green.blue + percentage * red.blue).toInt();
+      int redComponent = ((1 - percentage) * green.red + percentage * red.red).isFinite ? ((1 - percentage) * green.red + percentage * red.red).toInt() : 0;
+      int greenComponent = ((1 - percentage) * green.green + percentage * red.green).isFinite ? ((1 - percentage) * green.green + percentage * red.green).toInt() : 255;
+      int blueComponent = ((1 - percentage) * green.blue + percentage * red.blue).isFinite ? ((1 - percentage) * green.blue + percentage * red.blue).toInt() : 0;
 
       route.color = Color.fromARGB(255, redComponent, greenComponent, blueComponent);
     }
