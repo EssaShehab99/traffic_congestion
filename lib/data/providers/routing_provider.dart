@@ -78,7 +78,7 @@ class RoutingProvider extends ChangeNotifier {
     }
   }
 
-  void selectRoute(RouteModel route) {
+  Future<void> selectRoute(RouteModel route) async {
     isConfirmLocation = true;
     routes.firstWhere((element) => element.isSelected).isSelected = false;
     route.isSelected = true;
@@ -93,6 +93,23 @@ class RoutingProvider extends ChangeNotifier {
       width: 5,
     );
     polylines[id] = polyline;
+
+    if (arriveAt != null&&timeOfDay!=null) {
+      final now = TimeOfDay.now();
+      final isAfterNow = timeOfDay!.hour > now.hour ||
+          (timeOfDay!.hour == now.hour && timeOfDay!.minute >= now.minute);
+
+      if (isAfterNow) {
+        final hoursDifference = timeOfDay!.hour - now.hour;
+        final minutesDifference = timeOfDay!.minute - now.minute;
+        final requiredMinutes = (route.travelTime / 60).truncate();
+        final time = DateTime.now()
+            .add(Duration(hours: hoursDifference, minutes: minutesDifference))
+            .subtract(Duration(minutes: requiredMinutes));
+        await scheduleNotification(time, arriveAt);
+      }
+    }
+
     notifyListeners();
   }
 
@@ -116,8 +133,15 @@ class RoutingProvider extends ChangeNotifier {
         arriveAt =
             "You must arrive in $adjustedHours hour(s) and $adjustedMinutes minute(s)";
       }
-      await scheduleNotification(DateTime.now()
-          .add(Duration(hours: hoursDifference, minutes: minutesDifference)),arriveAt);
+      if (isConfirmLocation) {
+        final requiredMinutes =
+            (routes.firstWhere((element) => element.isSelected).travelTime / 60)
+                .truncate();
+        final time = DateTime.now()
+            .add(Duration(hours: hoursDifference, minutes: minutesDifference))
+            .subtract(Duration(minutes: requiredMinutes));
+        await scheduleNotification(time, arriveAt);
+      }
     } else {
       arriveAt = "You must arrive before ${timeOfDay.format(context)}";
     }
@@ -126,7 +150,7 @@ class RoutingProvider extends ChangeNotifier {
 
   Future<void> scheduleNotification(
       DateTime timeToArrive, String? message) async {
-    if(!timeToArrive.isAfter(DateTime.now())) return;
+    if (!timeToArrive.isAfter(DateTime.now())) return;
     const AndroidNotificationDetails androidPlatformChannelSpecifics =
         AndroidNotificationDetails(
       'your_channel_id',

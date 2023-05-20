@@ -195,7 +195,7 @@ class _RoutingScreenState extends State<RoutingScreen> {
                 provider.routes.isNotEmpty &&
                 provider.arriveAt == null)
               Text("Enter the time you want to arrive",
-                  style: Theme.of(context).textTheme.headline5),
+                  style: Theme.of(context).textTheme.headline5?.copyWith(color:Theme.of(context).colorScheme.error)),
             if (provider.isConfirmLocation &&
                 provider.routes.isNotEmpty &&
                 provider.arriveAt != null)
