@@ -1,6 +1,7 @@
 import 'dart:math' as math;
 import 'dart:math';
 import 'package:flutter/material.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:traffic_congestion/data/di/service_locator.dart';
@@ -17,6 +18,18 @@ class RoutingProvider extends ChangeNotifier {
   bool isConfirmLocation = false;
   String? arriveAt;
   TimeOfDay? timeOfDay;
+  late FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin;
+  initial(){
+    flutterLocalNotificationsPlugin =
+        FlutterLocalNotificationsPlugin();
+    flutterLocalNotificationsPlugin.initialize(
+        InitializationSettings(
+            android:
+            AndroidInitializationSettings('@mipmap/launcher_icon')));
+
+  }
+
+
   Future<void> determinePosition() async {
     if (currentLocation != null) {
       return;
