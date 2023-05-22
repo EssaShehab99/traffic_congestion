@@ -52,7 +52,7 @@ class RoutingProvider extends ChangeNotifier {
       return;
     }
     Result result = await _routingRepository.getRoutes(
-        LatLng(26.318027786127832, 43.806032865990574) /*currentLocation!*/,
+        const LatLng(26.318027786127832, 43.806032865990574) /*currentLocation!*/,
         destination);
     if (result is Success) {
       routes = result.value;
