@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
 import 'package:traffic_congestion/data/providers/auth_provider.dart';
+import 'package:traffic_congestion/views/auth/login_screen.dart';
 import 'package:traffic_congestion/views/shared/assets_variables.dart';
 import 'package:traffic_congestion/views/shared/shared_values.dart';
 
@@ -70,13 +71,15 @@ class SharedComponents {
               width: double.infinity,
               height: 150,
               decoration: BoxDecoration(
-                color: Theme.of(context).colorScheme.onPrimary,
-                borderRadius: const BorderRadius.vertical(
-                    bottom: Radius.circular(SharedValues.borderRadius)),
-                boxShadow: [
-                  BoxShadow(color: Colors.grey.withOpacity(0.8),spreadRadius: 1.5,blurRadius: 5)
-                ]
-              ),
+                  color: Theme.of(context).colorScheme.onPrimary,
+                  borderRadius: const BorderRadius.vertical(
+                      bottom: Radius.circular(SharedValues.borderRadius)),
+                  boxShadow: [
+                    BoxShadow(
+                        color: Colors.grey.withOpacity(0.8),
+                        spreadRadius: 1.5,
+                        blurRadius: 5)
+                  ]),
               child: Align(
                 alignment: Alignment.bottomCenter,
                 child: Padding(
@@ -87,24 +90,48 @@ class SharedComponents {
                       Expanded(
                         child: Align(
                           alignment: AlignmentDirectional.centerStart,
-                          child: Row(
-                            children: [
-                              SvgPicture.asset(
-                                AssetsVariable.user,
-                                alignment: AlignmentDirectional.centerEnd,
-                                width: 30,
-                                height: 30,
-                              ),
-                              const SizedBox(width: SharedValues.padding),
-                              Text(
-                                Provider.of<AuthProvider>(context,
-                                        listen: false)
-                                    .user!
-                                    .name,
-                                style: Theme.of(context).textTheme.headline2,
-                              )
-                            ],
-                          ),
+                          child: PopupMenuButton<String>(
+                              onSelected: (value) {
+                                Provider.of<AuthProvider>(context,listen: false).logout();
+                                Navigator.pushAndRemoveUntil(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) =>
+                                            const LoginScreen()),
+                                    (route) => false);
+                              },
+                              itemBuilder: (BuildContext context) =>
+                                  <PopupMenuEntry<String>>[
+                                    for (var item in ['Logout'])
+                                      PopupMenuItem(
+                                        value: item,
+                                        child: Text(
+                                          item,
+                                          style: Theme.of(context)
+                                              .textTheme
+                                              .headline3,
+                                        ),
+                                      )
+                                  ],
+                              child: Row(
+                                children: [
+                                  SvgPicture.asset(
+                                    AssetsVariable.user,
+                                    alignment: AlignmentDirectional.centerEnd,
+                                    width: 30,
+                                    height: 30,
+                                  ),
+                                  const SizedBox(width: SharedValues.padding),
+                                  Text(
+                                    Provider.of<AuthProvider>(context,
+                                            listen: false)
+                                        .user!
+                                        .name,
+                                    style:
+                                        Theme.of(context).textTheme.headline2,
+                                  )
+                                ],
+                              )),
                         ),
                       ),
                       Expanded(
@@ -173,5 +200,4 @@ class SharedComponents {
       ),
     );
   }
-
 }

@@ -9,12 +9,6 @@ import 'package:traffic_congestion/views/shared/button_widget.dart';
 import 'package:traffic_congestion/views/shared/dropdown_field_widget.dart';
 import 'package:traffic_congestion/views/shared/shared_components.dart';
 import 'package:traffic_congestion/views/shared/shared_values.dart';
-import 'package:traffic_congestion/views/shared/shared_values.dart';
-import 'package:traffic_congestion/views/shared/shared_values.dart';
-import 'package:traffic_congestion/views/shared/shared_values.dart';
-import 'package:traffic_congestion/views/shared/shared_values.dart';
-import 'package:traffic_congestion/views/shared/shared_values.dart';
-import 'package:traffic_congestion/views/shared/shared_values.dart';
 import 'package:traffic_congestion/views/shared/text_field_widget.dart';
 
 class RegisterScreen extends StatefulWidget {

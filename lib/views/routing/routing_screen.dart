@@ -22,6 +22,10 @@ class _RoutingScreenState extends State<RoutingScreen> {
   @override
   void initState() {
     provider = Provider.of<RoutingProvider>(context, listen: false);
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      showTime();
+    });
+
     super.initState();
   }
 
@@ -59,7 +63,7 @@ class _RoutingScreenState extends State<RoutingScreen> {
                         ),
                         IconButton(
                             onPressed: () => provider.setArriveTime(
-                                provider.timeOfDay, context),
+                                provider.timeToArriveAt, context),
                             icon: Icon(
                               Icons.refresh_outlined,
                               color: Theme.of(context).primaryColor,
@@ -67,39 +71,7 @@ class _RoutingScreenState extends State<RoutingScreen> {
                       ],
                     ),
                     onPressed: () async {
-                      TimeOfDay? timeOfDay = await showDialog(
-                        context: context,
-                        builder: (context) => Theme(
-                          data: ThemeData.light().copyWith(
-                            dialogBackgroundColor: Colors
-                                .white, // Set the background color of the dialog
-                            primaryColor:
-                                Colors.blue, // Set the primary color of the app
-                            hintColor: Colors
-                                .orange, // Set the accent color of the app
-                            textTheme: TextTheme(
-                              headline6: TextStyle(
-                                fontSize: 16, // Set the font size for headlines
-                                fontWeight: FontWeight
-                                    .bold, // Set the font weight for headlines
-                                color:
-                                    Colors.black, // Set the color for headlines
-                              ),
-                              bodyText2: TextStyle(
-                                fontSize: 14, // Set the font size for body text
-                                color:
-                                    Colors.grey, // Set the color for body text
-                              ),
-                            ),
-                          ),
-                          child: TimePickerDialog(
-                            initialTime: TimeOfDay.now(),
-                          ),
-                        ),
-                      );
-                      if (timeOfDay != null) {
-                        provider.setArriveTime(timeOfDay, context);
-                      }
+                     await showTime();
                     },
                   ),
                 ),
@@ -139,22 +111,38 @@ class _RoutingScreenState extends State<RoutingScreen> {
               ),
             ),
             if (provider.routes.isNotEmpty)
-              Text.rich(TextSpan(children: [
-                TextSpan(
-                    text:
-                        "${((provider.routes.firstWhere((element) => element.isSelected).travelTime) / 60).truncate()} min",
-                    style: Theme.of(context)
-                        .textTheme
-                        .bodyText1
-                        ?.copyWith(fontSize: 20, fontWeight: FontWeight.bold)),
-                TextSpan(
-                    text:
-                        ' (${provider.routes.firstWhere((element) => element.isSelected).distance})',
-                    style: Theme.of(context)
-                        .textTheme
-                        .bodyText2
-                        ?.copyWith(fontSize: 20)),
-              ]))
+              Row(
+                children: [
+                  Expanded(
+                    child: Text.rich(TextSpan(children: [
+                      TextSpan(
+                          text:
+                          "${((provider.routes.firstWhere((element) => element.isSelected).travelTime) / 60).truncate()} min",
+                          style: Theme.of(context)
+                              .textTheme
+                              .bodyText1
+                              ?.copyWith(fontSize: 20, fontWeight: FontWeight.bold)),
+                      TextSpan(
+                          text:
+                          ' (${provider.routes.firstWhere((element) => element.isSelected).distance})',
+                          style: Theme.of(context)
+                              .textTheme
+                              .bodyText2
+                              ?.copyWith(fontSize: 20)),
+                    ])),
+                  ),
+                  Expanded(child: Selector<RoutingProvider, int>(
+                    selector: (context, provider) => provider.countUsersCrossing,
+                    builder: (context, value, child) {
+                      return Text(
+                        'Number of users crossing the route: $value',
+                        style: Theme.of(context).textTheme.headline4,
+                      );
+                    },
+                  )
+                  )
+                ],
+              )
             else ...[
               const SizedBox(height: SharedValues.padding * 2),
               Align(
@@ -195,7 +183,10 @@ class _RoutingScreenState extends State<RoutingScreen> {
                 provider.routes.isNotEmpty &&
                 provider.arriveAt == null)
               Text("Enter the time you want to arrive",
-                  style: Theme.of(context).textTheme.headline5?.copyWith(color:Theme.of(context).colorScheme.error)),
+                  style: Theme.of(context)
+                      .textTheme
+                      .headline5
+                      ?.copyWith(color: Theme.of(context).colorScheme.error)),
             if (provider.isConfirmLocation &&
                 provider.routes.isNotEmpty &&
                 provider.arriveAt != null)
@@ -275,5 +266,45 @@ class _RoutingScreenState extends State<RoutingScreen> {
         ),
       ),
     );
+  }
+
+  Future<void> showTime() async {
+
+    TimeOfDay? timeOfDay = await showDialog(
+      context: context,
+      builder: (context) => Theme(
+        data: ThemeData.light().copyWith(
+          dialogBackgroundColor: Colors
+              .white, // Set the background color of the dialog
+          primaryColor:
+          Colors.blue, // Set the primary color of the app
+          hintColor: Colors
+              .orange, // Set the accent color of the app
+          textTheme: const TextTheme(
+            titleLarge: TextStyle(
+              fontSize: 16, // Set the font size for headlines
+              fontWeight: FontWeight
+                  .bold, // Set the font weight for headlines
+              color:
+              Colors.black, // Set the color for headlines
+            ),
+            bodyMedium: TextStyle(
+              fontSize: 14, // Set the font size for body text
+              color:
+              Colors.grey, // Set the color for body text
+            ),
+          ),
+        ),
+        child: TimePickerDialog(
+          initialTime: TimeOfDay.now(),
+        ),
+      ),
+    );
+
+    if(!mounted)return;
+    if (timeOfDay != null) {
+      await provider.setArriveTime(timeOfDay, context);
+    }
+
   }
 }

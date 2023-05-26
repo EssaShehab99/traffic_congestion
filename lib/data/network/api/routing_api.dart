@@ -1,5 +1,6 @@
 import 'dart:ui';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
@@ -7,9 +8,10 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 
 import 'package:traffic_congestion/data/models/route.dart';
-import 'dart:math' as math;
+import 'package:traffic_congestion/data/network/api/constants/endpoint.dart';
 
 class RoutingApi {
+  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
   Future<List<RouteModel>> getRoutes(double startLatitude,
       double startLongitude, double endLatitude, double endLongitude) async {
     try {
@@ -108,8 +110,10 @@ class RoutingApi {
 
   void changeColor(List<RouteModel> routes) {
     // Find the minimum and maximum travel times
-    int minTravelTime = routes.map((route) => route.travelTime).reduce((a, b) => a < b ? a : b);
-    int maxTravelTime = routes.map((route) => route.travelTime).reduce((a, b) => a > b ? a : b);
+    int minTravelTime =
+        routes.map((route) => route.travelTime).reduce((a, b) => a < b ? a : b);
+    int maxTravelTime =
+        routes.map((route) => route.travelTime).reduce((a, b) => a > b ? a : b);
 
     // Calculate the color gradient range
     final Color green = Colors.green;
@@ -117,14 +121,66 @@ class RoutingApi {
 
     for (var route in routes) {
       // Calculate the percentage value based on the travel time within the range
-      double percentage = (route.travelTime - minTravelTime) / (maxTravelTime - minTravelTime);
+      double percentage =
+          (route.travelTime - minTravelTime) / (maxTravelTime - minTravelTime);
 
       // Interpolate the color between green and red based on the percentage value
-      int redComponent = ((1 - percentage) * green.red + percentage * red.red).isFinite ? ((1 - percentage) * green.red + percentage * red.red).toInt() : 0;
-      int greenComponent = ((1 - percentage) * green.green + percentage * red.green).isFinite ? ((1 - percentage) * green.green + percentage * red.green).toInt() : 255;
-      int blueComponent = ((1 - percentage) * green.blue + percentage * red.blue).isFinite ? ((1 - percentage) * green.blue + percentage * red.blue).toInt() : 0;
+      int redComponent =
+          ((1 - percentage) * green.red + percentage * red.red).isFinite
+              ? ((1 - percentage) * green.red + percentage * red.red).toInt()
+              : 0;
+      int greenComponent =
+          ((1 - percentage) * green.green + percentage * red.green).isFinite
+              ? ((1 - percentage) * green.green + percentage * red.green)
+                  .toInt()
+              : 255;
+      int blueComponent =
+          ((1 - percentage) * green.blue + percentage * red.blue).isFinite
+              ? ((1 - percentage) * green.blue + percentage * red.blue).toInt()
+              : 0;
 
-      route.color = Color.fromARGB(255, redComponent, greenComponent, blueComponent);
+      route.color =
+          Color.fromARGB(255, redComponent, greenComponent, blueComponent);
+    }
+  }
+
+  Future<void> insertRoute(String email, List<LatLng> route,
+      DateTime startDateTime, DateTime endDateTime) async {
+    try {
+      final CollectionReference roadsCollection =
+          _firestore.collection(Collection.roads);
+      Map<String, dynamic> data = {
+        'email': email,
+        'route': route
+            .map((latLng) => {'lat': latLng.latitude, 'lng': latLng.longitude})
+            .toList(),
+        'startDateTime': Timestamp.fromDate(startDateTime),
+        'endDateTime': Timestamp.fromDate(endDateTime),
+      };
+
+      await roadsCollection.doc(email).set(data);
+    } catch (e) {
+      throw Exception('Failed to insert route: $e');
+    }
+  }
+
+  Future<List<QueryDocumentSnapshot>> getAllRoutes(
+      DateTime startDateTime, DateTime endDateTime) async {
+    try {
+      final CollectionReference roadsCollection =
+          _firestore.collection(Collection.roads);
+
+      final Query query = roadsCollection/*
+          .where('startDateTime',
+              isGreaterThanOrEqualTo: Timestamp.fromDate(startDateTime))
+          .where('startDateTime',
+              isLessThanOrEqualTo: Timestamp.fromDate(endDateTime))*/;
+
+      final QuerySnapshot querySnapshot = await query.get();
+
+      return querySnapshot.docs;
+    } catch (e) {
+      rethrow;
     }
   }
 }

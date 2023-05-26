@@ -25,6 +25,9 @@ class AuthProvider extends ChangeNotifier {
     return result;
   }
 
+  Future<void> logout() async {
+   await _authRepository.logout();
+  }
   void setUser(User? user) {
     _user = user;
   }

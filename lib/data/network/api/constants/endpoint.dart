@@ -5,11 +5,6 @@ class Collection {
 
   static const int connectionTimeout = 300;
   static const users = 'users';
-  static const services = 'services';
-  static const helpers = 'helpers';
-  static const areas = 'areas';
-  static const event = 'events';
-  static const request = 'request';
-  static const hotel = 'hotel';
+  static const roads = 'roads';
 
 }

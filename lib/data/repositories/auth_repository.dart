@@ -54,14 +54,15 @@ class AuthRepository {
     }
   }
 
-  // Future<Result> signOut() async {
-  //   try {
-  //     bool status = await _preferences.delete(PreferenceVariable.user);
-  //     return Success(status);
-  //   } catch (e) {
-  //     return Error(e);
-  //   }
-  // }
+  Future<Result> logout() async {
+    try {
+      await _authApi.logout();
+      bool status = await _preferences.delete(PreferenceVariable.user);
+      return Success(status);
+    } catch (e) {
+      return Error(e.toString());
+    }
+  }
 
   // Future<bool> changePassword(String email, String password) async {
   //   try {

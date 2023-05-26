@@ -7,10 +7,14 @@ import 'package:traffic_congestion/data/di/service_locator.dart';
 import 'package:traffic_congestion/data/models/route.dart';
 import 'package:traffic_congestion/data/network/data_response.dart';
 import 'package:traffic_congestion/data/repositories/routing_repository.dart';
+import 'package:traffic_congestion/data/usecases/user_crossing_usecase.dart';
 
 import '../utils/initial_notifications.dart';
+import '/data/models/user.dart';
 
 class RoutingProvider extends ChangeNotifier {
+  RoutingProvider(this._user);
+  final User? _user;
   final _routingRepository = getIt.get<RoutingRepository>();
   final destination = const LatLng(26.34887856490672, 43.7667912368093);
   LatLng? currentLocation;
@@ -18,7 +22,10 @@ class RoutingProvider extends ChangeNotifier {
   Map<PolylineId, Polyline> polylines = {};
   bool isConfirmLocation = false;
   String? arriveAt;
-  TimeOfDay? timeOfDay;
+  TimeOfDay? timeToArriveAt;
+  List<List<LatLng>> allUsersRoutes = [];
+  int countUsersCrossing=0;
+
 
   Future<void> determinePosition() async {
     if (currentLocation != null) {
@@ -52,7 +59,8 @@ class RoutingProvider extends ChangeNotifier {
       return;
     }
     Result result = await _routingRepository.getRoutes(
-        const LatLng(26.318027786127832, 43.806032865990574) /*currentLocation!*/,
+        const LatLng(
+            26.32425122485853, 43.841674802607955) /*currentLocation!*/,
         destination);
     if (result is Success) {
       routes = result.value;
@@ -94,19 +102,21 @@ class RoutingProvider extends ChangeNotifier {
     );
     polylines[id] = polyline;
 
-    if (arriveAt != null&&timeOfDay!=null) {
+    if (arriveAt != null && timeToArriveAt != null) {
       final now = TimeOfDay.now();
-      final isAfterNow = timeOfDay!.hour > now.hour ||
-          (timeOfDay!.hour == now.hour && timeOfDay!.minute >= now.minute);
+      final isAfterNow = timeToArriveAt!.hour > now.hour ||
+          (timeToArriveAt!.hour == now.hour &&
+              timeToArriveAt!.minute >= now.minute);
 
       if (isAfterNow) {
-        final hoursDifference = timeOfDay!.hour - now.hour;
-        final minutesDifference = timeOfDay!.minute - now.minute;
+        final hoursDifference = timeToArriveAt!.hour - now.hour;
+        final minutesDifference = timeToArriveAt!.minute - now.minute;
         final requiredMinutes = (route.travelTime / 60).truncate();
         final time = DateTime.now()
             .add(Duration(hours: hoursDifference, minutes: minutesDifference))
             .subtract(Duration(minutes: requiredMinutes));
         await scheduleNotification(time, arriveAt);
+        await insertRouting();
       }
     }
 
@@ -115,7 +125,7 @@ class RoutingProvider extends ChangeNotifier {
 
   Future<void> setArriveTime(TimeOfDay? timeOfDay, BuildContext context) async {
     if (timeOfDay == null) return;
-    this.timeOfDay = timeOfDay;
+    timeToArriveAt = timeOfDay;
     final now = TimeOfDay.now();
     final isAfterNow = timeOfDay.hour > now.hour ||
         (timeOfDay.hour == now.hour && timeOfDay.minute >= now.minute);
@@ -141,6 +151,7 @@ class RoutingProvider extends ChangeNotifier {
             .add(Duration(hours: hoursDifference, minutes: minutesDifference))
             .subtract(Duration(minutes: requiredMinutes));
         await scheduleNotification(time, arriveAt);
+        await insertRouting();
       }
     } else {
       arriveAt = "You must arrive before ${timeOfDay.format(context)}";
@@ -180,4 +191,31 @@ class RoutingProvider extends ChangeNotifier {
           UILocalNotificationDateInterpretation.absoluteTime,
     );
   }
+
+  Future<void> insertRouting() async {
+    final now = DateTime.now();
+    final startDate = DateTime(
+      now.year,
+      now.month,
+      now.day,
+      timeToArriveAt!.hour,
+      timeToArriveAt!.minute,
+    );
+    final endDate = startDate.add(Duration(seconds: routes.first.travelTime));
+
+    await _routingRepository.insertRouting(
+        _user!.email, routes.first.route, startDate, endDate);
+    await getAllUsersRoutes(_user!.email,startDate, endDate);
+    countUsersCrossing= UserCrossingUseCase.numberOfUsersCrossing(allUsersRoutes, routes.first.route);
+  }
+
+  Future<void> getAllUsersRoutes(String email,
+      DateTime startDateTime, DateTime endDateTime) async {
+    allUsersRoutes =
+        await _routingRepository.getAllUsersRoutes(email,startDateTime, endDateTime);
+    debugPrint('===============: ${allUsersRoutes.toString()}==============');
+  }
+
+
+
 }

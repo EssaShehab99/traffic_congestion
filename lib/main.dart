@@ -2,7 +2,7 @@
 import 'dart:convert';
 import 'dart:io';
 
-import 'package:easy_localization/easy_localization.dart';
+  import 'package:easy_localization/easy_localization.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -52,7 +52,10 @@ class MyApp extends StatelessWidget {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (_) => AuthProvider()..setUser(user)),
-        ChangeNotifierProvider(create: (_) => RoutingProvider()),
+        ChangeNotifierProxyProvider<AuthProvider, RoutingProvider>(
+            create: (context) => RoutingProvider(
+                Provider.of<AuthProvider>(context, listen: false).user),
+            update: (context, auth, _) => RoutingProvider(auth.user)),
       ],
       child: MaterialApp(
         title: 'Flutter Demo',

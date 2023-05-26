@@ -30,6 +30,7 @@ class AuthApi {
       rethrow;
     }
   }
+
   Future<Map<String, dynamic>> login(String email, String password) async {
     try {
       // Sign in the user with Firebase Authentication
@@ -49,6 +50,14 @@ class AuthApi {
             code: 'not-found', message: 'User data not found', plugin: '');
       }
       return userData;
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  Future<void> logout() async {
+    try {
+      await _auth.signOut();
     } catch (e) {
       rethrow;
     }

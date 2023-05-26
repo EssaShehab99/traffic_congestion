@@ -49,7 +49,7 @@ class ThemeApp {
         constraints: BoxConstraints(minHeight: 55),
         hintStyle: const TextStyle(fontSize: 12, color: Color(0xFF939393)),
       ),
-      colorScheme:  ColorScheme(
+      colorScheme:  const ColorScheme(
           brightness: Brightness.light,
           primary: Color(0xFFFABC80),
           onPrimary: Color(0xFFFDFAED),
