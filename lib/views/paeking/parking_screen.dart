@@ -235,6 +235,13 @@ class _ParkingScreenState extends State<ParkingScreen> {
                             style: Theme.of(context).textTheme.button,
                           )),
                         );
+                      } else if (result is NotValid) {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                              backgroundColor: Colors.yellow,
+                              content: Text('This position is previously reserved!',
+                                  style: Theme.of(context).textTheme.subtitle1)),
+                        );
                       } else if (result is Error) {
                         ScaffoldMessenger.of(context).showSnackBar(
                           SnackBar(

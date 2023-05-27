@@ -72,7 +72,7 @@ class MyApp extends StatelessWidget {
         theme: ThemeApp.light,
         home: user == null ? const LoginScreen() : const HomeScreen(),
         // home: const TestScreen(),
-      ),  
+      ),
     );
   }
 }

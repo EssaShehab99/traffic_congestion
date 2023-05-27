@@ -38,6 +38,7 @@ class ParkingProvider extends ChangeNotifier {
     await _parkingRepository.insertParking(parking);
   }
   Future<Result> reservedParking(Parking parking) async {
+    if(parking.wasTaken==true)return NotValid();
     parking.from=from;
     parking.to=to;
     Result result =await _parkingRepository.updateParking(parking);
