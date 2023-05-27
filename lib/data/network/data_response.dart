@@ -5,6 +5,9 @@ class Success<T> extends Result<T> {
 
   Success([this.value]);
 }
+class NotValid<T> extends Result<T> {
+  NotValid();
+}
 class Error<T> extends Result<T> {
   final String? message;
   Error([this.message]);

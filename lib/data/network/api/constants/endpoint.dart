@@ -6,5 +6,6 @@ class Collection {
   static const int connectionTimeout = 300;
   static const users = 'users';
   static const roads = 'roads';
+  static const parking = 'parking';
 
 }

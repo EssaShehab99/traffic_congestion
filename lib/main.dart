@@ -17,7 +17,9 @@ import 'package:traffic_congestion/style/theme_app.dart';
 import 'package:traffic_congestion/firebase_options.dart';
 import 'package:traffic_congestion/views/auth/login_screen.dart';
 import 'package:traffic_congestion/views/home/home_screen.dart';
+import 'package:traffic_congestion/views/test_screen.dart';
 
+import 'data/providers/parking_provider.dart';
 import 'data/providers/routing_provider.dart';
 import 'package:timezone/data/latest.dart' as tz;
 
@@ -56,6 +58,10 @@ class MyApp extends StatelessWidget {
             create: (context) => RoutingProvider(
                 Provider.of<AuthProvider>(context, listen: false).user),
             update: (context, auth, _) => RoutingProvider(auth.user)),
+        ChangeNotifierProxyProvider<AuthProvider, ParkingProvider>(
+            create: (context) => ParkingProvider(
+                Provider.of<AuthProvider>(context, listen: false).user),
+            update: (context, auth, _) => ParkingProvider(auth.user)),
       ],
       child: MaterialApp(
         title: 'Flutter Demo',
@@ -64,12 +70,9 @@ class MyApp extends StatelessWidget {
         locale: context.locale,
         debugShowCheckedModeBanner: false,
         theme: ThemeApp.light,
-        // home: const HomeScreen(),
         home: user == null ? const LoginScreen() : const HomeScreen(),
-        // home:  const SignInScreen(),
-        // home: const MainScreen(),
-        // home: VerifyOTP(isSignUp: true),
-      ),
+        // home: const TestScreen(),
+      ),  
     );
   }
 }

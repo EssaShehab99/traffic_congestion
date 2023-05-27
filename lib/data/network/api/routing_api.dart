@@ -170,11 +170,11 @@ class RoutingApi {
       final CollectionReference roadsCollection =
           _firestore.collection(Collection.roads);
 
-      final Query query = roadsCollection/*
+      final Query query = roadsCollection
           .where('startDateTime',
               isGreaterThanOrEqualTo: Timestamp.fromDate(startDateTime))
           .where('startDateTime',
-              isLessThanOrEqualTo: Timestamp.fromDate(endDateTime))*/;
+              isLessThanOrEqualTo: Timestamp.fromDate(endDateTime));
 
       final QuerySnapshot querySnapshot = await query.get();
 
