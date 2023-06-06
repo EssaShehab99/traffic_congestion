@@ -49,7 +49,7 @@ class _RoutingMapWidgetState extends State<RoutingMapWidget> {
               markerId: const MarkerId("1"),
               position: value,
               infoWindow: const InfoWindow(
-                title: 'hospital-location',
+                title: '',
               ),
             ));
           }

@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
@@ -55,7 +56,7 @@ class _RoutingScreenState extends State<RoutingScreen> {
                             child: Selector<RoutingProvider, String?>(
                               selector: (p0, p1) => p1.arriveAt,
                               builder: (context, value, child) => Text(
-                                  value ?? 'You must arrive at ..',
+                                  value ?? 'must-arrive-at'.tr(),
                                   style:
                                       Theme.of(context).textTheme.labelMedium),
                             ),
@@ -135,7 +136,7 @@ class _RoutingScreenState extends State<RoutingScreen> {
                     selector: (context, provider) => provider.countUsersCrossing,
                     builder: (context, value, child) {
                       return Text(
-                        'Number of users crossing the route: $value',
+                        '${'number-route'.tr()} $value',
                         style: Theme.of(context).textTheme.headline4,
                       );
                     },
@@ -162,7 +163,7 @@ class _RoutingScreenState extends State<RoutingScreen> {
                           color: Theme.of(context).colorScheme.onPrimary,
                         ),
                         const SizedBox(width: SharedValues.padding),
-                        Text("Show route from your location",
+                        Text("show-location".tr(),
                             style: Theme.of(context).textTheme.button),
                       ],
                     ),
@@ -191,6 +192,9 @@ class _RoutingScreenState extends State<RoutingScreen> {
                 provider.routes.isNotEmpty &&
                 provider.arriveAt != null)
               Text(provider.arriveAt!,
+                  style: Theme.of(context).textTheme.headline5),
+            if(provider.countAvailableParking!=0)
+              Text("${"available-parking".tr()}${provider.countAvailableParking}",
                   style: Theme.of(context).textTheme.headline5),
             Expanded(
               child: Container(

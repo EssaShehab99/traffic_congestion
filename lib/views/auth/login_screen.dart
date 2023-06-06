@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -51,7 +52,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         child: Padding(
                           padding: EdgeInsets.only(top: 50, left: 40),
                           child: Text(
-                            '\t\tHello!\n Welcome Back',
+                            'welcome'.tr(),
                             style: Theme.of(context)
                                 .textTheme
                                 .bodyText1
@@ -63,7 +64,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                   const SizedBox(height: 20),
                   Text(
-                    'Please login to continue',
+                    'login-continue'.tr(),
                     style: Theme.of(context)
                         .textTheme
                         .bodyText1
@@ -71,27 +72,27 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                   const SizedBox(height: 20),
                   TextFieldWidget(
-                    hintText: 'Enter your username',
+                    hintText: 'enter-username'.tr(),
                     controller: _email,
                     keyboardType: TextInputType.emailAddress,
                     validator: (value) {
                       if (value?.isNotEmpty != true) {
-                        return 'Email is required';
+                        return 'email-required'.tr();
                       }
                       if (!EmailValidator.validate(value!)) {
-                        return 'Invalid email format';
+                        return 'email-invalid-email'.tr();
                       }
                       return null;
                     },
                   ),
                   const SizedBox(height: 20),
                   TextFieldWidget(
-                    hintText: 'Enter your password',
+                    hintText: 'enter-password'.tr(),
                     controller: _password,
                     obscureText: true,
                     validator: (value) {
                       if (value?.isNotEmpty!=true) {
-                        return 'Please enter your password';
+                        return 'please-enter-password'.tr();
                       }
                       return null;
                     },
@@ -108,7 +109,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           ),
                         ),
                         child: Text(
-                          'Forget Password',
+                          'forget-password'.tr(),
                           style: const TextStyle(
                             fontSize: 15,
                             color: Colors.green,
@@ -132,12 +133,12 @@ class _LoginScreenState extends State<LoginScreen> {
                             Navigator.push(context, MaterialPageRoute(builder: (context) => HomeScreen(),));
                           } else if (result is Error){
                             SharedComponents.showSnackBar(
-                                context,result.message??'An error occurred');
+                                context,result.message??'error-occurred'.tr());
                           }
                         }
                       },
                       child: Text(
-                        'Login',
+                        'login'.tr(),
                         style: Theme.of(context).textTheme.button,
                       ),
                     ),
@@ -147,7 +148,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Text(
-                        'Don\'t have an account?',
+                        'do-not-have-account'.tr(),
                         style: Theme.of(context).textTheme.bodyText2,
                       ),
                       TextButton(
@@ -160,7 +161,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           ),
                         ),
                         child: Text(
-                          'Register',
+                          'register'.tr(),
                           style: Theme.of(context).textTheme.headlineLarge,
                         ),
                       ),

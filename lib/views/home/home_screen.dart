@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
@@ -40,7 +41,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       children: [
                         _buildButtonWidget(
                           image: AssetsVariable.routing,
-                          text: 'Routing',
+                          text: 'routing'.tr(),
                           onPressed: () {
                             Navigator.push(
                                 context,
@@ -51,7 +52,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         ),
                         _buildButtonWidget(
                           image: AssetsVariable.parking,
-                          text: 'Parking',
+                          text: 'parking'.tr(),
                           onPressed: () {
                             Navigator.push(
                                 context,

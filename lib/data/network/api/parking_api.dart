@@ -31,6 +31,7 @@ class ParkingApi {
     }
   }
 
+
   Future<void> insertParking(Parking parking) async {
     try {
       await _firestore.add(parking.toMap());

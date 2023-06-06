@@ -19,8 +19,8 @@ class ParkingRepository {
       String parkingID, DateTime from, DateTime to) async {
     try {
       final parkingData = await _parkingApi.getParking(parkingID);
-      final parking =
-          Parking.fromJson(parkingData?.data() as Map<String, dynamic>,parkingData!.id);
+      final parking = Parking.fromJson(
+          parkingData?.data() as Map<String, dynamic>, parkingData!.id);
       if (parking.from?.isAfter(from) == true &&
           parking.to?.isBefore(to) == true) {
         return NotValid();
@@ -34,9 +34,12 @@ class ParkingRepository {
   Future<Result> getAllParking() async {
     try {
       final parkingData = await _parkingApi.getAllParking();
-      final parking =List.of(parkingData).map((e) => Parking.fromJson(e.data() as Map<String, dynamic>,e.id)).toList();
+      final parking = List.of(parkingData)
+          .map((e) => Parking.fromJson(e.data() as Map<String, dynamic>, e.id))
+          .toList();
       for (var element in parking) {
-        element.wasTaken=element.from?.isBefore(DateTime.now()) == true && element.to?.isAfter(DateTime.now()) == true;
+        element.wasTaken = element.from?.isBefore(DateTime.now()) == true &&
+            element.to?.isAfter(DateTime.now()) == true;
       }
       return Success(parking);
     } catch (e) {
@@ -44,6 +47,31 @@ class ParkingRepository {
     }
   }
 
+  Future<Result> getCountParking(DateTime from, DateTime to) async {
+    try {
+      final parkingData = await _parkingApi.getAllParking();
+      final parking = List.of(parkingData)
+          .map((e) => Parking.fromJson(e.data() as Map<String, dynamic>, e.id))
+          .toList();
+
+      for (var element in parking) {
+        DateTime now = DateTime.now();
+        element.wasTaken = element.from?.isBefore(now) == true && element.to?.isAfter(now) == true;
+        if (isNotInDateTimeRange(now, from, to)) {
+          // Perform your desired action if the DateTime is not within the range
+          // For example, you can set `wasTaken` to false
+          element.wasTaken = false;
+        }
+      }
+
+      return Success(parking.where((element) => element.wasTaken!=true).length);
+    } catch (e) {
+      return Error(e.toString());
+    }
+  }
+  bool isNotInDateTimeRange(DateTime dateTime, DateTime from, DateTime to) {
+    return dateTime.isBefore(from) || dateTime.isAfter(to);
+  }
   Future<void> insertParking(Parking parking) async {
     try {
       debugPrint(
@@ -53,6 +81,7 @@ class ParkingRepository {
       throw Exception('Failed to insert routing: $e');
     }
   }
+
   Future<Result> updateParking(Parking parking) async {
     try {
       debugPrint(

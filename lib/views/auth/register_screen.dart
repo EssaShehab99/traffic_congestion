@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -42,69 +43,69 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   TextFieldWidget(
-                    hintText: 'Enter your name',
+                    hintText: 'enter-name'.tr(),
                     controller: _name,
                     keyboardType: TextInputType.text,
                     validator: (value) {
                       if (value?.isNotEmpty != true) {
-                        return 'Name is required';
+                        return 'name-is-required'.tr();
                       }
                       return null;
                     },
                   ),
                   const SizedBox(height: SharedValues.padding * 2),
                   TextFieldWidget(
-                    hintText: 'Enter your last ID',
+                    hintText: 'enter-ID'.tr(),
                     controller: _idNumber,
                     keyboardType: TextInputType.number,
                     validator: (value) {
                       if (value?.isNotEmpty != true) {
-                        return 'ID number is required';
+                        return 'number-required'.tr();
                       }
                       if (value?.length != 10) {
-                        return 'ID number must be 10 digits';
+                        return 'number-digits'.tr();
                       }
                       return null;
                     },
                   ),
                   const SizedBox(height: SharedValues.padding * 2),
                   TextFieldWidget(
-                    hintText: 'Enter your phone',
+                    hintText: 'enter-phone'.tr(),
                     controller: _phone,
                     keyboardType: TextInputType.phone,
                     validator: (value) {
                       if (value?.isNotEmpty != true) {
-                        return 'Phone number is required';
+                        return 'Phone-required'.tr();
                       }
                       return null;
                     },
                   ),
                   const SizedBox(height: SharedValues.padding * 2),
                   TextFieldWidget(
-                    hintText: 'Enter your email',
+                    hintText: 'enter-your-email'.tr(),
                     controller: _email,
                     keyboardType: TextInputType.emailAddress,
                     validator: (value) {
                       if (value?.isNotEmpty != true) {
-                        return 'Email is required';
+                        return 'email-required'.tr();
                       }
                       if (!EmailValidator.validate(value!)) {
-                        return 'Invalid email format';
+                        return 'email-invalid-email'.tr();
                       }
                       return null;
                     },
                   ),
                   const SizedBox(height: SharedValues.padding * 2),
                   TextFieldWidget(
-                    hintText: 'Enter your password',
+                    hintText: 'enter-password'.tr(),
                     controller: _password,
                     obscureText: true,
                     validator: (value) {
                       if (value?.isNotEmpty != true) {
-                        return 'Password is required';
+                        return 'password-required'.tr();
                       }
                       if (value!.length < 6) {
-                        return 'Password must be at least 6 characters';
+                        return 'password-must-characters'.tr();
                       }
                       return null;
                     },
@@ -139,7 +140,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           ),
                         ),
                         child: Text(
-                          'Forget Password',
+                          'forget-password'.tr(),
                           style: const TextStyle(
                             fontSize: 15,
                             color: Colors.green,
@@ -167,15 +168,15 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           if (!mounted) return;
                           if (result is Success) {
                             SharedComponents.showSnackBar(
-                                context, 'Success Register');
+                                context, 'success-register'.tr());
                           } else if (result is Error){
                             SharedComponents.showSnackBar(
-                                context,result.message??'An error occurred');
+                                context,result.message??'error-occurred'.tr());
                           }
                         }
                       },
                       child: Text(
-                        'Login',
+                        'login'.tr(),
                         style: Theme.of(context).textTheme.button,
                       ),
                     ),
@@ -185,7 +186,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Text(
-                        'Don\'t have an account?',
+                        "do-not-have-account".tr(),
                         style: Theme.of(context).textTheme.bodyText2,
                       ),
                       TextButton(
@@ -198,7 +199,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           ),
                         ),
                         child: Text(
-                          'Register',
+                          'register'.tr(),
                           style: Theme.of(context).textTheme.headlineLarge,
                         ),
                       ),

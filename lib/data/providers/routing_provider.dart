@@ -6,6 +6,7 @@ import 'package:timezone/timezone.dart' as tz;
 import 'package:traffic_congestion/data/di/service_locator.dart';
 import 'package:traffic_congestion/data/models/route.dart';
 import 'package:traffic_congestion/data/network/data_response.dart';
+import 'package:traffic_congestion/data/repositories/parking_repository.dart';
 import 'package:traffic_congestion/data/repositories/routing_repository.dart';
 import 'package:traffic_congestion/data/usecases/user_crossing_usecase.dart';
 
@@ -16,6 +17,7 @@ class RoutingProvider extends ChangeNotifier {
   RoutingProvider(this._user);
   final User? _user;
   final _routingRepository = getIt.get<RoutingRepository>();
+  final _parkingRepository = getIt.get<ParkingRepository>();
   final destination = const LatLng(26.34887856490672, 43.7667912368093);
   LatLng? currentLocation;
   List<RouteModel> routes = [];
@@ -24,8 +26,8 @@ class RoutingProvider extends ChangeNotifier {
   String? arriveAt;
   TimeOfDay? timeToArriveAt;
   List<List<LatLng>> allUsersRoutes = [];
-  int countUsersCrossing=0;
-
+  int countUsersCrossing = 0;
+  int countAvailableParking = 0;
 
   Future<void> determinePosition() async {
     if (currentLocation != null) {
@@ -205,17 +207,20 @@ class RoutingProvider extends ChangeNotifier {
 
     await _routingRepository.insertRouting(
         _user!.email, routes.first.route, startDate, endDate);
-    await getAllUsersRoutes(_user!.email,startDate, endDate);
-    countUsersCrossing= UserCrossingUseCase.numberOfUsersCrossing(allUsersRoutes, routes.first.route);
+    await getAllUsersRoutes(_user!.email, startDate, endDate);
+    countUsersCrossing = UserCrossingUseCase.numberOfUsersCrossing(
+        allUsersRoutes, routes.first.route);
   }
 
-  Future<void> getAllUsersRoutes(String email,
-      DateTime startDateTime, DateTime endDateTime) async {
-    allUsersRoutes =
-        await _routingRepository.getAllUsersRoutes(email,startDateTime, endDateTime);
+  Future<void> getAllUsersRoutes(
+      String email, DateTime startDateTime, DateTime endDateTime) async {
+    allUsersRoutes = await _routingRepository.getAllUsersRoutes(
+        email, startDateTime, endDateTime);
+    Result result =
+        await _parkingRepository.getCountParking(startDateTime, endDateTime);
+    if (result is Success) {
+      countAvailableParking = result.value;
+    }
     debugPrint('===============: ${allUsersRoutes.toString()}==============');
   }
-
-
-
 }

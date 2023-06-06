@@ -1,5 +1,6 @@
 import 'dart:ui';
 
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
@@ -92,17 +93,28 @@ class SharedComponents {
                           alignment: AlignmentDirectional.centerStart,
                           child: PopupMenuButton<String>(
                               onSelected: (value) {
-                                Provider.of<AuthProvider>(context,listen: false).logout();
-                                Navigator.pushAndRemoveUntil(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) =>
-                                            const LoginScreen()),
-                                    (route) => false);
+                                print(context.locale.toString());
+
+                                if(value=='ar'){
+                                  context.setLocale(Locale('ar', 'SA'));
+                                }else if(value=='en'){
+                                  context.setLocale(Locale('en', 'US'));
+                                }
+                                else{
+                                  Provider.of<AuthProvider>(context,
+                                          listen: false)
+                                      .logout();
+                                  Navigator.pushAndRemoveUntil(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) =>
+                                              const LoginScreen()),
+                                      (route) => false);
+                                }
                               },
                               itemBuilder: (BuildContext context) =>
                                   <PopupMenuEntry<String>>[
-                                    for (var item in ['Logout'])
+                                    for (var item in ['Logout',context.locale.toString()=='en_US'?"ar":'en'])
                                       PopupMenuItem(
                                         value: item,
                                         child: Text(

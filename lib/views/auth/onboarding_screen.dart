@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:traffic_congestion/views/auth/login_screen.dart';
 import 'package:traffic_congestion/views/auth/register_screen.dart';
@@ -27,9 +28,9 @@ class OonboardingScreebState extends State<OnboardingScreeb> {
                 height: 300,
               ),
               const SizedBox(height: 25),
-              const Text(
-                "We help you reach your destination with the least possible traffic and the least time to wait for available parking.",
-                style: TextStyle(
+               Text(
+                "we-help-you-reach".tr(),
+                style: const TextStyle(
                   fontSize: 20,
                   fontWeight: FontWeight.normal,
                 ),
@@ -46,7 +47,7 @@ class OonboardingScreebState extends State<OnboardingScreeb> {
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       Text(
-                        "Login",
+                        "login".tr(),
                         style: Theme.of(context).textTheme.button,
                       ),
                       Icon(
@@ -62,7 +63,7 @@ class OonboardingScreebState extends State<OnboardingScreeb> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text(
-                    'Don\'t have an account?',
+                    'do-not-have-account'.tr(),
                     style: Theme.of(context).textTheme.bodyText2,
                   ),
                   TextButton(
@@ -75,7 +76,7 @@ class OonboardingScreebState extends State<OnboardingScreeb> {
                       ),
                     ),
                     child: Text(
-                      'Register',
+                      'register'.tr(),
                       style: Theme.of(context).textTheme.headlineLarge,
                     ),
                   ),

@@ -39,7 +39,7 @@ class _ParkingScreenState extends State<ParkingScreen> {
               borderRadius: BorderRadius.vertical(
                   bottom: Radius.circular(SharedValues.borderRadius))),
           child: Text(
-            'Parking',
+            'parking'.tr(),
             style: Theme.of(context).textTheme.headline3,
           ),
         ),
@@ -231,7 +231,7 @@ class _ParkingScreenState extends State<ParkingScreen> {
                           SnackBar(
                             backgroundColor: Colors.green,
                               content: Text(
-                            'Success!',
+                            'success'.tr(),
                             style: Theme.of(context).textTheme.button,
                           )),
                         );
@@ -239,21 +239,21 @@ class _ParkingScreenState extends State<ParkingScreen> {
                         ScaffoldMessenger.of(context).showSnackBar(
                           SnackBar(
                               backgroundColor: Colors.yellow,
-                              content: Text('This position is previously reserved!',
+                              content: Text('position-reserved'.tr(),
                                   style: Theme.of(context).textTheme.subtitle1)),
                         );
                       } else if (result is Error) {
                         ScaffoldMessenger.of(context).showSnackBar(
                           SnackBar(
                               backgroundColor: Colors.red,
-                              content: Text('Failure!',
+                              content: Text('failure'.tr(),
                                   style: Theme.of(context).textTheme.button)),
                         );
                       }
                       Navigator.pop(context);
                     },
                     child: Text(
-                      'Reserved',
+                      'reserved'.tr(),
                       style: Theme.of(context).textTheme.button,
                     ),
                   ),
